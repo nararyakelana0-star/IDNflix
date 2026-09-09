@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IDNflix — Nobar Untuk Santri IDN</title>
+<meta name="description" content="IDNflix — platform nobar dan streaming video untuk santri IDN Boarding School Pamijahan.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230b1220'/><text x='50' y='70' font-size='58' font-family='Arial' font-weight='900' fill='%232f7dff' text-anchor='middle'>I</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="#/">
+    <span class="logo">IDNflix</span>
+    <span class="tag">Nobar Untuk Santri IDN</span>
+  </a>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#/">Home</a>
+    <a href="#/tv">TV Shows</a>
+    <a href="#/movies">Movies</a>
+    <a href="#/genres">Genres</a>
+    <a href="#/search">Search</a>
+    <a href="#/mylist">My List</a>
+    <a href="#/profile">Profile</a>
+  </div>
+
+  <div class="nav-right">
+    <button class="icon-btn" id="btnSearch" title="Cari (tekan /)"></button>
+    <a class="avatar" href="#/profile"><span class="pic">S</span><span>Santri</span></a>
+    <button class="icon-btn burger" id="burger" title="Menu"></button>
+  </div>
+</nav>
+
+<main id="view"></main>
+
+<!-- Search modal -->
+<div class="modal" id="searchModal">
+  <div class="modal-box">
+    <header>
+      <h3>Search</h3>
+      <button class="icon-btn" id="closeSearch"></button>
+    </header>
+    <div class="search-field">
+      <span id="searchIco"></span>
+      <input id="modalInput" type="text" placeholder="Cari judul, genre, atau kata kunci…" autocomplete="off">
+    </div>
+    <div class="suggest" id="suggest"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
