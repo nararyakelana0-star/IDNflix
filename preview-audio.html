@@ -1,4 +1,5 @@
-/* ============ IDNFLIX — Nobar Untuk Santri IDN ============ */
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8">
+<title>Preview — Dropdown Audio IDNflix</title><style>/* ============ IDNFLIX — Nobar Untuk Santri IDN ============ */
 :root{
   --bg:#08090d;
   --bg-2:#0d0f15;
@@ -692,3 +693,115 @@ footer .links{display:flex;flex-wrap:wrap;gap:18px}
   .audio-dd-btn{width:100%;justify-content:space-between}
   .audio-menu{left:0;right:0;min-width:0}
 }
+
+body{padding:0;background:#08090d}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 22px 90px}
+h1{font-size:26px;margin:0 0 6px;font-weight:900;letter-spacing:-.8px}
+.lead{color:#98a0b3;font-size:14px;margin:0 0 34px;line-height:1.6}
+h2{font-size:15px;margin:38px 0 4px;font-weight:800;color:#cfe0ff}
+.cap{color:#8f97a9;font-size:12.8px;margin:0 0 14px;line-height:1.55}
+.stage{border:1px solid rgba(255,255,255,.09);border-radius:16px;overflow:visible;background:#0b0d13}
+.fakeplayer{aspect-ratio:16/5;background:
+  radial-gradient(ellipse at 50% 40%,rgba(47,125,255,.16),transparent 62%),
+  linear-gradient(160deg,#12151f,#080a10);
+  display:grid;place-items:center;border-bottom:1px solid rgba(255,255,255,.07);
+  border-radius:16px 16px 0 0}
+.fakeplayer span{color:#525c72;font-size:12.5px;letter-spacing:2.6px;font-weight:800}
+.stage.roomy{padding-top:260px}
+</style></head><body><div class="wrap">
+<h1>Dropdown Audio — English / Indonesia</h1>
+<p class="lead">Menempel langsung di bawah player, gaya Netflix. Ini render sungguhan dari kode website
+(<code>styles.css</code> + markup hasil <code>app.js</code>), bukan mockup.</p>
+
+<h2>1 · Keadaan normal — tertutup</h2>
+<p class="cap">Kiri: bahasa yang sedang diputar + channel sumbernya. Kanan: tombol untuk mengganti.</p>
+<div class="stage"><div class="fakeplayer"><span>YOUTUBE PLAYER</span></div><div class="player-bar">
+      <div class="now"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+        <span>Audio: <b>🇮🇩 Indonesia</b>
+        · FreeQuranEducationIndonesia</span>
+      </div>
+      <div class="audio-dd" data-dd="">
+    <button class="audio-dd-btn" data-ddtoggle="">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+      <span class="cap">Audio</span>
+      <span class="cur"><span class="fl">🇮🇩</span>Indonesia</span>
+      <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+    </button>
+    <div class="audio-menu">
+      <div class="hd">Pilih bahasa suara</div>
+      <button class="audio-opt on " data-voice="id">
+          <span class="fl">🇮🇩</span>
+          <span class="tx"><span class="t1">Indonesia</span><span class="t2">FreeQuranEducationIndonesia</span></span>
+          <span class="tick"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </button><button class="audio-opt  " data-voice="en">
+          <span class="fl">🇬🇧</span>
+          <span class="tx"><span class="t1">English</span><span class="t2">FreeQuranEducation</span></span>
+          <span class="tick"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </button>
+    </div>
+  </div>
+    </div></div>
+
+<h2>2 · Menu terbuka</h2>
+<p class="cap">Indonesia bertanda centang biru karena sedang aktif. Tiap opsi menampilkan channel asalnya.</p>
+<div class="stage roomy"><div class="player-bar">
+      <div class="now"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+        <span>Audio: <b>🇮🇩 Indonesia</b>
+        · FreeQuranEducationIndonesia</span>
+      </div>
+      <div class="audio-dd open" data-dd="">
+    <button class="audio-dd-btn" data-ddtoggle="">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+      <span class="cap">Audio</span>
+      <span class="cur"><span class="fl">🇮🇩</span>Indonesia</span>
+      <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+    </button>
+    <div class="audio-menu">
+      <div class="hd">Pilih bahasa suara</div>
+      <button class="audio-opt on " data-voice="id">
+          <span class="fl">🇮🇩</span>
+          <span class="tx"><span class="t1">Indonesia</span><span class="t2">FreeQuranEducationIndonesia</span></span>
+          <span class="tick"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </button><button class="audio-opt  " data-voice="en">
+          <span class="fl">🇬🇧</span>
+          <span class="tx"><span class="t1">English</span><span class="t2">FreeQuranEducation</span></span>
+          <span class="tick"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </button>
+    </div>
+  </div>
+    </div></div>
+
+<h2>3 · Episode yang belum di-dub — S4 Ep 2</h2>
+<p class="cap">Opsi Indonesia otomatis diredupkan dan tidak bisa diklik, dengan alasan yang jelas.
+Video tetap diputar dalam English supaya tidak ada episode yang gagal tayang.</p>
+<div class="stage roomy"><div class="player-bar">
+      <div class="now"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+        <span>Audio: <b>🇬🇧 English</b>
+        · FreeQuranEducation</span>
+      </div>
+      <div class="audio-dd open" data-dd="">
+    <button class="audio-dd-btn" data-ddtoggle="">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+      <span class="cap">Audio</span>
+      <span class="cur"><span class="fl">🇬🇧</span>English</span>
+      <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+    </button>
+    <div class="audio-menu">
+      <div class="hd">Pilih bahasa suara</div>
+      <button class="audio-opt  off" disabled="">
+          <span class="fl">🇮🇩</span>
+          <span class="tx"><span class="t1">Indonesia</span><span class="t2">Episode ini belum di-dub — diputar English</span></span>
+          <span class="tick"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </button><button class="audio-opt on " data-voice="en">
+          <span class="fl">🇬🇧</span>
+          <span class="tx"><span class="t1">English</span><span class="t2">FreeQuranEducation</span></span>
+          <span class="tick"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </button>
+    </div>
+  </div>
+    </div></div>
+<div style="margin-top:14px"><div class="voice-note" style="margin-top:18px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+      <span>Versi suara <b>Indonesia</b> untuk bagian ini belum tersedia di channel resmi,
+      jadi diputar dalam <b>English</b>. Bagian lain yang sudah di-dub tetap otomatis berbahasa Indonesia.</span>
+    </div></div>
+</div></body></html>

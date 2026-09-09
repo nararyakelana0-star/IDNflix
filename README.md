@@ -26,7 +26,8 @@ legal, dan tidak butuh server khusus.
 
 Konten utama adalah serial animasi Islami **“I'm The Best Muslim”** (Season 1–4)
 dari channel **[FreeQuranEducation](https://www.youtube.com/@FreeQuranEducation)**,
-dilengkapi serial dan film pendukung dari channel yang sama.
+dilengkapi serial dan film pendukung dari channel yang sama, ditambah dua serial
+pilihan lain: **Epic Story** (Yufid.TV) dan **Outdoor Boys**.
 
 > ⚠️ IDNflix bukan produk resmi Netflix maupun platform streaming manapun.
 > Tidak ada logo, aset, atau identitas visual pihak lain yang digunakan.
@@ -45,8 +46,8 @@ dilengkapi serial dan film pendukung dari channel yang sama.
 | Search | `#/search` | Pencarian dengan empty state |
 | My List | `#/mylist` | Watchlist pribadi |
 | Profile | `#/profile` | Statistik & pengaturan data |
-| Detail | `#/title/:id` | Info judul + selector season |
-| Watch | `#/watch/:id/:season/:ep` | Player YouTube responsif |
+| Detail | `#/title/:id` | Info judul + season selector + episode grid + cast + rekomendasi |
+| Watch | `#/watch/:id/:season/:ep` | Player YouTube + daftar episode + cast + rekomendasi |
 
 ### Home Page Sections
 1. **Hero / Featured** — banner besar, judul, deskripsi, genre, tahun, durasi, rating, tombol *Watch Now* & *+ My List*
@@ -59,7 +60,12 @@ dilengkapi serial dan film pendukung dari channel yang sama.
 8. **Browse by Genre**
 
 ### Fungsional
-- 🎞️ **Season selector 1–4** pada halaman detail & watch
+- 🔊 **Pilihan suara English / Indonesia** — FreeQuranEducation merilis dua versi, keduanya tersedia di IDNflix. Switcher ada di navbar, halaman detail, halaman watch, dan Profile. Pilihan tersimpan di `localStorage`
+- 🎞️ **Season selector 1–4** pada halaman detail & watch — tersedia dalam bentuk pill maupun dropdown
+- 🗓️ **Episode grid** dengan badge `S01E01`, tanggal rilis asli, dan durasi di atas thumbnail
+- ↕️ **Toggle urutan episode** Oldest ⇄ Newest
+- 👥 **Cast** — deretan avatar bulat berisi nama karakter & perannya
+- 🎴 **More Like This** — rekomendasi bergaya kartu poster potret dengan badge TV/Movie, jumlah season, rating, dan jumlah episode
 - 🔍 **Search modal** dengan live suggestion — shortcut `/` atau `Ctrl` + `K`
 - 🎛️ **Filter**: Tipe (TV/Movie) · Genre · Tahun · Rating · Sort (Popularity, Rating, Terbaru, A–Z)
 - 🔖 **My List** tersimpan di `localStorage`
@@ -147,6 +153,7 @@ Semua konten dikelola dari satu file: **`data.js`** — tambahkan objek baru ke 
   duration: "1h 24m",
   genres: ["Islamic", "Animation"],
   channel: "FreeQuranEducation",
+  audioLang: "id",   // opsional — bahasa asli judul; default "en"
   country: "Indonesia",
   popularity: 80,                 // 0–100, dipakai untuk sorting & Trending
   description: "Deskripsi singkat film...",
@@ -169,6 +176,12 @@ Semua konten dikelola dari satu file: **`data.js`** — tambahkan objek baru ke 
   popularity: 90,
   description: "Deskripsi serial...",
   thumb: null,
+
+  // Tampil di section "Cast" halaman detail & watch
+  cast: [
+    { name: "Nama Karakter", role: "Peran" }
+  ],
+
   seasons: [
     {
       season: 1,
@@ -178,6 +191,7 @@ Semua konten dikelola dari satu file: **`data.js`** — tambahkan objek baru ke 
           ep: 1,
           title: "Judul Episode",
           youtubeId: "VIDEO_ID",
+          airDate: "2026-03-01",     // tampil sebagai badge "1 Mar 26"
           duration: "10:41",
           description: "Ringkasan episode..."
         }
@@ -187,6 +201,38 @@ Semua konten dikelola dari satu file: **`data.js`** — tambahkan objek baru ke 
 }
 ```
 
+> 💡 `airDate` memakai format `YYYY-MM-DD` dan otomatis diformat menjadi
+> `1 Mar 26` pada badge episode. Boleh dikosongkan — badge tanggal
+> hanya tidak akan ditampilkan.
+
+### 🔊 Menambah versi suara Indonesia
+
+Cukup tambahkan tiga field pada episode atau movie yang sudah ada.
+**Jangan** membuat entri terpisah:
+
+```js
+{
+  ep: 1,
+  title: "Cleanliness",              // judul versi English
+  youtubeId: "rQEesf-lVrk",          // video English
+  airDate: "2020-04-15",
+  duration: "1:55",
+  description: "...",
+
+  // ↓ versi suara Indonesia
+  idnYoutubeId: "F0SuPnn8kSs",       // video dari FreeQuranEducationIndonesia
+  idnTitle: "Kebersihan",            // judul versi Indonesia
+  idnAirDate: "2021-04-13"
+}
+```
+
+**Perilaku otomatis:**
+- Judul akan menampilkan badge `EN / ID` bila kedua versi tersedia
+- Saat pengguna memilih 🇮🇩 Indonesia, judul dan thumbnail ikut berubah
+- Episode yang **belum** punya `idnYoutubeId` otomatis fallback ke versi English,
+  dengan badge `EN` dan catatan penjelas di halaman watch
+- Filter **Semua Suara / Ada Dub Indonesia / Ada Versi English** muncul otomatis di katalog
+
 ### Field opsional
 | Field | Fungsi |
 |---|---|
@@ -194,6 +240,11 @@ Semua konten dikelola dari satu file: **`data.js`** — tambahkan objek baru ke 
 | `backdrop` | URL gambar banner khusus untuk hero |
 | `tagline` | Kalimat miring di bawah judul pada halaman detail |
 | `endYear` | Tahun berakhir serial, tampil sebagai `2020–2026` |
+| `cast` | Array `{ name, role }` untuk section Cast. Avatar & warnanya dibuat otomatis dari inisial nama |
+| `airDate` | Tanggal rilis episode (`YYYY-MM-DD`), tampil sebagai badge di pojok thumbnail |
+| `idnYoutubeId` | Video ID versi suara Indonesia — mengaktifkan opsi 🇮🇩 pada judul tersebut |
+| `idnTitle` | Judul versi Indonesia |
+| `idnAirDate` | Tanggal rilis versi Indonesia |
 
 ### Cara mendapatkan YouTube Video ID
 ```
@@ -222,12 +273,50 @@ Filter, tile genre, dan halaman Genres akan menyesuaikan otomatis.
 | Forgotten Sunnah | 1 | 1 |
 
 ### I'm The Best Muslim — rincian season
-| Season | Tahun | Episode | Episode pertama |
-|---|---|---|---|
-| Season 1 | 2020 | 14 | Cleanliness |
-| Season 2 | 2021 | 9 | Silence is Gold |
-| Season 3 | 2023 | 8 | How to Borrow your Friend's Money? |
-| Season 4 | 2025 | 4 | Dark Cloud |
+| Season | Tahun | Episode | Episode pertama | Dub 🇮🇩 |
+|---|---|---|---|---|
+| Season 1 | 2020 | 14 | Cleanliness / *Kebersihan* | 14/14 |
+| Season 2 | 2021 | 9 | Silence is Gold / *Diam Itu Emas* | 9/9 |
+| Season 3 | 2023 | 8 | How to Borrow your Friend's Money? / *Cara Pinjam Uang ke Teman Kamu* | 8/8 |
+| Season 4 | 2025 | 4 | Dark Cloud / *No Galap* | 1/4 |
+
+### Cakupan versi suara
+| Judul | Suara tersedia | Cakupan dub 🇮🇩 |
+|---|---|---|
+| I'm The Best Muslim | EN + ID | 32 / 35 episode |
+| Isekai Sharia | EN + ID | 7 / 7 episode |
+| I'm Best Muslim: RedLock | EN | — |
+| Forgotten Sunnah | EN | — |
+| Kompilasi Musim 1, 2, 3 | EN + ID | penuh |
+
+#### Epic Story — Yufid.TV
+
+Serial kisah nabi & umat terdahulu bersama **Ustadz Johan Saputra Halim, M.H.I.**
+dari channel **[Yufid.TV](https://www.youtube.com/@yufid)**.
+
+| Season | Isi | Episode |
+| --- | --- | --- |
+| 1 | Kisah para nabi & umat terdahulu | 28 |
+| 2 | Serial Spesial Sirah Nabawiyah (Eps 1–10) | 10 |
+
+Bahasa asli serial ini **Indonesia** (`audioLang: "id"`), jadi tidak ada versi
+English — dropdown audio otomatis menonaktifkan opsi EN.
+
+#### Outdoor Boys
+
+Serial petualangan & survival keluarga di alam liar Alaska, **13 episode pilihan**
+dari channel **[Outdoor Boys](https://www.youtube.com/@OutdoorBoys)** milik Luke Nichols.
+
+> ℹ️ **Catatan:** Outdoor Boys **bukan** produksi Yufid TV seperti yang sempat
+> diperkirakan. Channel ini milik Luke Nichols (Alaska, AS) dan berbahasa English.
+> Kontennya tetap aman dan mendidik untuk santri: keterampilan bertahan hidup,
+> kerja keras, dan kekaguman pada alam ciptaan Allah.
+
+#### Dub Indonesia I'm The Best Muslim
+
+Total **42 video versi Indonesia** dari channel
+**[FreeQuranEducationIndonesia](https://www.youtube.com/@IndonesianFreeQuranEducation)**,
+seluruhnya diverifikasi nama channel + tanggal rilisnya.
 
 ### Movies
 Kompilasi penuh Season 1, Season 2, Season 1 & 2 Complete, Season 3 Volume 1,
@@ -235,13 +324,16 @@ Season 4 Compilation, Ramadan Compilation, serta trailer & teaser resmi.
 
 > Seluruh Video ID diverifikasi lewat YouTube oEmbed API — judul dan nama channel
 > cocok dengan sumber aslinya. Tidak ada ID atau URL fiktif.
+>
+> **Tanggal rilis (`airDate`) untuk ke-55 video juga diambil langsung dari metadata
+> `uploadDate` di halaman YouTube masing-masing**, bukan tanggal karangan.
 
 ---
 
 ## 🧠 Catatan Teknis
 
 - **Routing** — hash-based (`#/tv`, `#/watch/id/1/2`), aman untuk hosting statis tanpa konfigurasi rewrite
-- **Penyimpanan** — `localStorage` dengan key `idnflix.mylist` dan `idnflix.continue`
+- **Penyimpanan** — `localStorage` dengan key `idnflix.mylist`, `idnflix.continue`, dan `idnflix.voice`
 - **Thumbnail** — `i.ytimg.com/vi/{id}/maxresdefault.jpg` dengan fallback otomatis ke `hqdefault.jpg`
 - **Player** — iframe `youtube.com/embed/` dengan parameter `rel=0&modestbranding=1&playsinline=1`
 - **Browser** — Chrome, Edge, Firefox, Safari versi modern
@@ -250,10 +342,13 @@ Season 4 Compilation, Ramadan Compilation, serta trailer & teaser resmi.
 
 ## 🙏 Kredit
 
-Seluruh konten video adalah karya
-**[FreeQuranEducation](https://www.youtube.com/@FreeQuranEducation)** (Free Quran Education Studio, Indonesia)
-dan tetap menjadi hak milik mereka. IDNflix hanya menampilkan katalog dan
-memutar video melalui YouTube Embed resmi.
+Seluruh konten video tetap menjadi hak milik pembuatnya masing-masing.
+IDNflix hanya menampilkan katalog dan memutar video melalui YouTube Embed resmi.
+
+- 🇬🇧 **[FreeQuranEducation](https://www.youtube.com/@FreeQuranEducation)** — I'm The Best Muslim & serial pendukung, versi English
+- 🇮🇩 **[FreeQuranEducationIndonesia](https://www.youtube.com/@IndonesianFreeQuranEducation)** — versi dub Indonesia
+- 🇮🇩 **[Yufid.TV](https://www.youtube.com/@yufid)** — Epic Story bersama Ustadz Johan Saputra Halim, M.H.I.
+- 🌲 **[Outdoor Boys](https://www.youtube.com/@OutdoorBoys)** — Luke Nichols, petualangan & survival Alaska
 
 Dukung karya mereka dengan menonton, menyukai, dan berlangganan di channel aslinya.
 

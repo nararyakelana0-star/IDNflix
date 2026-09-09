@@ -12,12 +12,75 @@ const I = {
   menu: (s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>`,
   x: (s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>`,
   bookmark: (s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 4h12v17l-6-4.2L6 21z"/></svg>`,
-  info: (s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>`
+  info: (s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>`,
+  sort: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h7M4 18h4"/><path d="M17 5v14M17 19l3-3M17 19l-3-3"/></svg>`,
+  layers: (s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 14 9 5 9-5"/></svg>`,
+  audio: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>`,
+  chev: (s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`
 };
 
 /* ---------- State ---------- */
 const LS_LIST = "idnflix.mylist";
 const LS_CONT = "idnflix.continue";
+const LS_VOICE = "idnflix.voice";
+
+/* Bahasa suara aktif: "en" | "id" (default Indonesia untuk santri IDN) */
+let VOICE = (() => {
+  const v = localStorage.getItem(LS_VOICE);
+  return v === "en" || v === "id" ? v : "id";
+})();
+function setVoice(lang, silent) {
+  if (VOICE === lang) return;
+  VOICE = lang;
+  localStorage.setItem(LS_VOICE, lang);
+  if (!silent) toast(`Suara diubah ke ${VOICES[lang].flag} ${VOICES[lang].label}`);
+}
+
+/* Dropdown audio gaya Netflix — dipakai di bar bawah player.
+   avail = bahasa yang tersedia, activeLang = yang benar-benar diputar (bisa fallback) */
+function audioDropdownHTML(avail, activeLang, node, item) {
+  return `<div class="audio-dd" data-dd>
+    <button class="audio-dd-btn" data-ddtoggle>
+      ${I.audio(16)}
+      <span class="cap">Audio</span>
+      <span class="cur"><span class="fl">${VOICES[activeLang].flag}</span>${VOICES[activeLang].label}</span>
+      <span class="arw">${I.chev(15)}</span>
+    </button>
+    <div class="audio-menu">
+      <div class="hd">Pilih bahasa suara</div>
+      ${["id", "en"].map(l => {
+        // ketersediaan dicek pada episode/movie yang sedang diputar, bukan judulnya
+        const ok = node ? hasVoice(node, l, item) : avail.includes(l);
+        const isActive = activeLang === l;
+        let note = voiceChannel(item, l);
+        if (!ok) note = avail.includes(l)
+          ? `Episode ini belum di-dub — diputar ${VOICES[nativeLang(item)].label}`
+          : "Belum tersedia untuk judul ini";
+        return `<button class="audio-opt ${isActive ? "on" : ""} ${ok ? "" : "off"}"
+          ${ok ? `data-voice="${l}"` : "disabled"}>
+          <span class="fl">${VOICES[l].flag}</span>
+          <span class="tx"><span class="t1">${VOICES[l].label}</span><span class="t2">${note}</span></span>
+          <span class="tick">${I.check(17)}</span>
+        </button>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+/* Voice switcher UI. avail = daftar bahasa yang tersedia untuk judul ini */
+function voiceSwitchHTML(avail = ["en", "id"], compact) {
+  const eff = avail.includes(VOICE) ? VOICE : avail[0];
+  return `<div class="voice-box">
+    ${compact ? "" : `<span class="vlabel">Suara</span>`}
+    ${["en", "id"].map(l => {
+      const on = avail.includes(l);
+      return `<button class="vbtn ${eff === l ? "active" : ""} ${on ? "" : "disabled"}"
+        ${on ? `data-voice="${l}"` : "disabled"}
+        title="${on ? "Putar dengan suara " + VOICES[l].label : "Versi " + VOICES[l].label + " belum tersedia"}">
+        <span class="fl">${VOICES[l].flag}</span>${VOICES[l].short}</button>`;
+    }).join("")}
+  </div>`;
+}
 const store = {
   get list() { try { return JSON.parse(localStorage.getItem(LS_LIST)) || []; } catch { return []; } },
   set list(v) { localStorage.setItem(LS_LIST, JSON.stringify(v)); },
@@ -88,6 +151,7 @@ function cardHTML(item, opts = {}) {
       <span class="badge-rate">${I.star(11)} ${item.rating.toFixed(1)}</span>
       <img loading="lazy" data-src="${thumb}" data-fallback="${fb}" alt="${item.title}">
       <div class="play-fab">${I.play(20)}</div>
+      <span class="audio-badge">${itemVoices(item).map(l => VOICES[l].short).join(" / ")}</span>
     </div>
     <div class="card-body">
       <h3>${item.title}</h3>
@@ -197,7 +261,7 @@ function pageHome() {
 }
 
 /* --- Catalog page w/ filters --- */
-const F = { type: "all", genre: "All", year: "all", rating: "all", sort: "popularity", q: "" };
+const F = { type: "all", genre: "All", year: "all", rating: "all", sort: "popularity", q: "", voice: "all" };
 
 function applyFilters(base) {
   let out = base.filter(i => {
@@ -205,6 +269,7 @@ function applyFilters(base) {
     if (F.genre !== "All" && !i.genres.includes(F.genre)) return false;
     if (F.year !== "all" && String(i.year) !== F.year) return false;
     if (F.rating !== "all" && i.rating < Number(F.rating)) return false;
+    if (F.voice !== "all" && !itemVoices(i).includes(F.voice)) return false;
     if (F.q && !(i.title + " " + i.genres.join(" ") + " " + i.description).toLowerCase().includes(F.q.toLowerCase())) return false;
     return true;
   });
@@ -232,6 +297,11 @@ function filterBarHTML(showType = true) {
       <option value="9"${F.rating === "9" ? " selected" : ""}>9.0+</option>
       <option value="8.5"${F.rating === "8.5" ? " selected" : ""}>8.5+</option>
       <option value="8"${F.rating === "8" ? " selected" : ""}>8.0+</option>
+    </select>
+    <select class="select" data-f="voice">
+      <option value="all"${F.voice === "all" ? " selected" : ""}>Semua Suara</option>
+      <option value="id"${F.voice === "id" ? " selected" : ""}>🇮🇩 Ada Dub Indonesia</option>
+      <option value="en"${F.voice === "en" ? " selected" : ""}>🇬🇧 Ada Versi English</option>
     </select>
     <select class="select" data-f="sort">
       <option value="popularity"${F.sort === "popularity" ? " selected" : ""}>Urutkan: Popularity</option>
@@ -320,6 +390,15 @@ function pageProfile() {
       <div class="stat"><div class="n">${CATALOG.length}</div><div class="l">Judul di Katalog</div></div>
       <div class="stat"><div class="n">${eps}</div><div class="l">Total Episode</div></div>
     </div>
+    <div style="padding:6px clamp(16px,4vw,48px) 4px">
+      <div class="side-card" style="max-width:520px">
+        <h4>Preferensi Suara</h4>
+        <p style="margin:0 0 14px;font-size:13.5px;color:#b8c0d0;line-height:1.6">
+          Pilih bahasa suara default saat memutar tayangan. Pilihan ini tersimpan di perangkatmu.
+        </p>
+        ${voiceSwitchHTML(["en", "id"])}
+      </div>
+    </div>
     ${store.cont.length ? rowHTML("Lanjutkan Menonton", store.cont.map(byId).filter(Boolean)) : ""}
     <div style="padding:8px clamp(16px,4vw,48px) 40px;display:flex;gap:10px;flex-wrap:wrap">
       <button class="pill" data-clear="list">Kosongkan My List</button>
@@ -338,13 +417,10 @@ function pageTitle(id, seasonNo) {
   if (item.type === "tv") {
     const s = item.seasons.find(x => x.season == seasonNo) || item.seasons[0];
     seasonBlock = `
-      <div class="row-head" style="padding-left:0;padding-right:0;margin-top:34px">
-        <h2>Episodes</h2>
-        <div class="season-bar" style="margin:0">
-          ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/title/${id}/${x.season}">Season ${x.season}</button>`).join("")}
-        </div>
+      <div class="season-bar" style="margin-top:26px">
+        ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/title/${id}/${x.season}">Season ${x.season}</button>`).join("")}
       </div>
-      <div class="ep-list">${s.episodes.map(e => epHTML(item, s, e)).join("")}</div>`;
+      ${episodesBlockHTML(item, s, null)}`;
   }
   const playHref = item.type === "tv"
     ? `#/watch/${id}/${(item.seasons.find(x => x.season == seasonNo) || item.seasons[0]).season}/${(item.seasons.find(x => x.season == seasonNo) || item.seasons[0]).episodes[0].ep}`
@@ -369,6 +445,7 @@ function pageTitle(id, seasonNo) {
           <a class="btn btn-primary" href="${playHref}">${I.play()} Watch Now</a>
           <button class="btn btn-ghost ${saved ? "saved" : ""}" data-listbtn="${id}">
             ${saved ? I.check() : I.plus()}<span>${saved ? "In My List" : "My List"}</span></button>
+          ${voiceSwitchHTML(itemVoices(item))}
         </div>
       </div>
     </section>
@@ -377,11 +454,120 @@ function pageTitle(id, seasonNo) {
         <div class="kv"><span class="k">Channel</span><span>${item.channel}</span></div>
         <div class="kv"><span class="k">Negara</span><span>${item.country || "-"}</span></div>
         <div class="kv"><span class="k">Genre</span><span>${item.genres.join(", ")}</span></div>
+        <div class="kv"><span class="k">Pilihan suara</span><span>${itemVoices(item).map(l => VOICES[l].flag + " " + VOICES[l].label).join(" · ")}</span></div>
       </div>
       ${seasonBlock}
     </div>
-    ${rowHTML("Konten Serupa", related)}
+    ${castHTML(item)}
+    ${posterRowHTML("More Like This", related)}
     ${footerHTML()}`;
+}
+
+/* ---------- Episode card (grid style, gaya referensi) ---------- */
+function epCardHTML(item, s, e, playing = false) {
+  const nat = nativeLang(item);
+  const vid = voiceVideoId(e, VOICE, item);
+  const ttl = voiceTitle(e, VOICE);
+  const date = voiceAirDate(e, VOICE);
+  // tandai kalau bahasa pilihan user tidak tersedia -> fallback ke bahasa asli
+  const fellBack = VOICE !== nat && !hasVoice(e, VOICE, item);
+  const shownLang = fellBack ? nat : VOICE;
+  return `<article class="epc ${playing ? "playing" : ""}" data-go="#/watch/${item.id}/${s.season}/${e.ep}">
+    <div class="shot">
+      <span class="ep-tag se">S${String(s.season).padStart(2, "0")}E${String(e.ep).padStart(2, "0")}</span>
+      ${date ? `<span class="ep-tag date">${shortDate(date)}</span>` : ""}
+      <span class="ep-tag dur">${e.duration}</span>
+      <span class="audio-badge">${VOICES[shownLang].flag} ${VOICES[shownLang].short}</span>
+      <img loading="lazy" data-src="https://i.ytimg.com/vi/${vid}/hqdefault.jpg" alt="${ttl}">
+      <div class="fab">${I.play(18)}</div>
+    </div>
+    <h4>${ttl}</h4>
+    <p>${e.description || ""}</p>
+  </article>`;
+}
+
+/* ---------- Blok Episodes lengkap: header + sort + season select + grid ---------- */
+const EPSORT = { desc: false }; // false = Oldest first
+
+function episodesBlockHTML(item, s, currentEp) {
+  let eps = [...s.episodes];
+  if (EPSORT.desc) eps.reverse();
+  const avail = itemVoices(item);
+  const cov = voiceCoverage(item, "id");
+  const partial = cov && cov.done > 0 && cov.done < cov.total;
+  return `<section id="episodes">
+    <div class="eps-head">
+      <h2>Episodes</h2>
+      <div class="eps-tools">
+        ${voiceSwitchHTML(avail)}
+        <button class="sort-btn ${EPSORT.desc ? "desc" : ""}" data-epsort>
+          ${I.sort()} <span>${EPSORT.desc ? "Newest" : "Oldest"}</span>
+        </button>
+        <select class="season-select" data-seasonsel data-item="${item.id}">
+          ${item.seasons.map(x => `<option value="${x.season}"${x.season === s.season ? " selected" : ""}>Season ${x.season}</option>`).join("")}
+        </select>
+      </div>
+    </div>
+    ${VOICE === "id" && partial ? `<div class="voice-note" style="margin:-4px 0 16px">
+      ${I.info(15)}<span>Dub <b>Indonesia</b> tersedia untuk <b>${cov.done} dari ${cov.total}</b> episode.
+      Episode yang belum di-dub otomatis diputar dalam versi <b>English</b>.</span></div>` : ""}
+    <div class="ep-grid">
+      ${eps.map(e => epCardHTML(item, s, e, currentEp != null && e.ep == currentEp)).join("")}
+    </div>
+  </section>`;
+}
+
+/* ---------- Cast ---------- */
+function castHTML(item) {
+  if (!item.cast?.length) return "";
+  return `<section class="section" style="padding-bottom:6px">
+    <div class="row-head"><h2>Cast</h2></div>
+    <div class="cast-row">
+      ${item.cast.map(c => {
+        const h = nameHue(c.name);
+        return `<div class="cast">
+          <div class="face" style="background:linear-gradient(145deg,hsl(${h} 62% 42%),hsl(${(h + 40) % 360} 68% 26%))">
+            ${initials(c.name)}
+          </div>
+          <div class="nm">${c.name}</div>
+          <div class="rl">${c.role}</div>
+        </div>`;
+      }).join("")}
+    </div>
+  </section>`;
+}
+
+/* ---------- Poster card + More Like This row ---------- */
+function posterHTML(item) {
+  const thumb = itemThumb(item);
+  const badge = item.type === "tv" ? `S${item.seasons.length}` : "HD";
+  const meta = item.type === "tv" ? `${totalEpisodes(item)} Eps` : item.duration;
+  return `<article class="poster" data-go="#/title/${item.id}">
+    <div class="pf">
+      <span class="p-tag tl">${item.type === "tv" ? "TV" : "Movie"}</span>
+      <span class="p-tag tr">${badge}</span>
+      <img loading="lazy" data-src="${thumb}" alt="${item.title}">
+      <div class="pfab">${I.play(20)}</div>
+      <div class="p-foot">
+        <span class="rt">${I.star(11)} ${item.rating.toFixed(1)}</span>
+        <span class="ep">${I.layers(11)} ${meta}</span>
+      </div>
+    </div>
+    <div class="pt">${item.title}</div>
+  </article>`;
+}
+
+function posterRowHTML(title, items) {
+  if (!items.length) return "";
+  const id = "pr" + Math.random().toString(36).slice(2, 8);
+  return `<section class="section">
+    <div class="row-head"><h2>${title}</h2></div>
+    <div class="row-wrap">
+      <button class="row-nav prev" data-scroll="${id}" data-dir="-1">${I.left()}</button>
+      <div class="row" id="${id}">${items.map(posterHTML).join("")}</div>
+      <button class="row-nav next" data-scroll="${id}" data-dir="1">${I.right()}</button>
+    </div>
+  </section>`;
 }
 
 function epHTML(item, s, e, playing = false) {
@@ -404,14 +590,19 @@ function pageWatch(id, seasonNo, epNo) {
   if (!item) return emptyHTML("Konten tidak ditemukan", "Silakan kembali ke beranda.");
   pushContinue(id);
   const saved = inList(id);
-  let vid, heading, sub, desc, extra = "", sideEps = "";
+  let vid, heading, sub, desc, extra = "", sideEps = "", watchEpisodes = "";
+
+  let node = null, avail = itemVoices(item), fellBack = false;
+  const nat = nativeLang(item);
 
   if (item.type === "tv") {
     const s = item.seasons.find(x => x.season == seasonNo) || item.seasons[0];
     const e = s.episodes.find(x => x.ep == epNo) || s.episodes[0];
-    vid = e.youtubeId;
+    node = e;
+    fellBack = VOICE !== nat && !hasVoice(e, VOICE, item);
+    vid = voiceVideoId(e, VOICE, item);
     heading = item.title;
-    sub = `Season ${s.season} • Episode ${e.ep} — ${e.title}`;
+    sub = `Season ${s.season} • Episode ${e.ep} — ${voiceTitle(e, VOICE)}`;
     desc = e.description || item.description;
     extra = `<div class="season-bar" style="margin-top:22px">
         ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/watch/${id}/${x.season}/${x.episodes[0].ep}">Season ${x.season}</button>`).join("")}
@@ -420,9 +611,31 @@ function pageWatch(id, seasonNo, epNo) {
         <h4>Season ${s.season} • ${s.episodes.length} Episode</h4>
         <div class="ep-list">${s.episodes.map(x => epHTML(item, s, x, x.ep === e.ep)).join("")}</div>
       </div>`;
+    watchEpisodes = `<div style="padding:0 clamp(16px,4vw,48px)">${episodesBlockHTML(item, s, e.ep)}</div>`;
   } else {
-    vid = item.youtubeId; heading = item.title; sub = `Movie • ${item.duration}`; desc = item.description;
+    node = item;
+    fellBack = VOICE !== nat && !hasVoice(item, VOICE, item);
+    vid = voiceVideoId(item, VOICE, item);
+    heading = voiceTitle(item, VOICE);
+    sub = `Movie • ${item.duration}`;
+    desc = item.description;
   }
+
+  const activeLang = fellBack ? nat : VOICE;
+
+  /* Bar audio menempel langsung di bawah player */
+  const playerBar = `<div class="player-bar">
+      <div class="now">${I.audio(15)}
+        <span>Audio: <b>${VOICES[activeLang].flag} ${VOICES[activeLang].label}</b>
+        · ${voiceChannel(item, activeLang)}</span>
+      </div>
+      ${audioDropdownHTML(avail, activeLang, node, item)}
+    </div>`;
+
+  const voiceUI = fellBack ? `<div class="voice-note" style="margin-top:18px">${I.info(15)}
+      <span>Versi suara <b>${VOICES[VOICE].label}</b> untuk bagian ini belum tersedia di channel resmi,
+      jadi diputar dalam <b>${VOICES[nat].label}</b>.</span>
+    </div>` : "";
 
   return `<div class="watch">
     <div class="player-wrap">
@@ -430,6 +643,7 @@ function pageWatch(id, seasonNo, epNo) {
         title="${heading}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
+    ${playerBar}
     <div class="watch-body">
       <div>
         <a class="back-btn" href="#/title/${id}">${I.left(15)} Back</a>
@@ -441,6 +655,7 @@ function pageWatch(id, seasonNo, epNo) {
           ${item.genres.map(g => `<span class="chip">${g}</span>`).join("")}
         </div>
         <p class="desc">${desc}</p>
+        ${voiceUI}
         <div class="hero-actions" style="margin-top:20px">
           <button class="btn btn-ghost ${saved ? "saved" : ""}" data-listbtn="${id}">
             ${saved ? I.check() : I.plus()}<span>${saved ? "In My List" : "My List"}</span></button>
@@ -452,7 +667,8 @@ function pageWatch(id, seasonNo, epNo) {
           <div class="kv"><span class="k">Tipe</span><span>${item.type === "tv" ? "TV Show" : "Movie"}</span></div>
           <div class="kv"><span class="k">Tahun</span><span>${item.year}</span></div>
           <div class="kv"><span class="k">Rating</span><span>${item.rating.toFixed(1)} / 10</span></div>
-          <div class="kv"><span class="k">Sumber</span><span>YouTube — ${item.channel}</span></div>
+          <div class="kv"><span class="k">Pilihan suara</span><span>${avail.map(l => VOICES[l].flag + " " + VOICES[l].label).join(" · ")}</span></div>
+          <div class="kv"><span class="k">Sumber</span><span>YouTube — ${voiceChannel(item, activeLang)}</span></div>
         </div>
       </div>
       <aside>
@@ -465,6 +681,9 @@ function pageWatch(id, seasonNo, epNo) {
         ${sideEps}
       </aside>
     </div>
+    ${watchEpisodes}
+    ${castHTML(item)}
+    ${posterRowHTML("More Like This", CATALOG.filter(x => x.id !== id && x.genres.some(g => item.genres.includes(g))).slice(0, 10))}
   </div>${footerHTML()}`;
 }
 
@@ -532,6 +751,8 @@ function render() {
     v.style.animation = "none"; void v.offsetWidth; v.style.animation = "";
     hydrateLazy(v);
     markNav(r);
+    const nv = document.getElementById("navVoice");
+    if (nv) nv.innerHTML = voiceSwitchHTML(["en", "id"], true);
     if (r.name === "search") {
       const inp = document.getElementById("pageSearch");
       if (inp) {
@@ -604,10 +825,44 @@ document.addEventListener("click", (ev) => {
     el.scrollBy({ left: Number(sc.dataset.dir) * (el.clientWidth * .82), behavior: "smooth" });
     return;
   }
+  const ddt = ev.target.closest("[data-ddtoggle]");
+  if (ddt) {
+    ev.preventDefault(); ev.stopPropagation();
+    const dd = ddt.closest("[data-dd]");
+    const wasOpen = dd.classList.contains("open");
+    document.querySelectorAll("[data-dd].open").forEach(d => d.classList.remove("open"));
+    if (!wasOpen) dd.classList.add("open");
+    return;
+  }
+  if (!ev.target.closest(".audio-menu")) {
+    document.querySelectorAll("[data-dd].open").forEach(d => d.classList.remove("open"));
+  }
+
+  const vb = ev.target.closest("[data-voice]");
+  if (vb) {
+    ev.preventDefault(); ev.stopPropagation();
+    if (vb.classList.contains("disabled")) return;
+    const y = window.scrollY;
+    setVoice(vb.dataset.voice);
+    render();
+    setTimeout(() => window.scrollTo({ top: y }), 240);
+    return;
+  }
+
+  const es = ev.target.closest("[data-epsort]");
+  if (es) {
+    EPSORT.desc = !EPSORT.desc;
+    const y = window.scrollY;
+    render();
+    setTimeout(() => window.scrollTo({ top: y }), 240);
+    toast(EPSORT.desc ? "Episode diurutkan: Terbaru dulu" : "Episode diurutkan: Terlama dulu");
+    return;
+  }
+
   const g = ev.target.closest("[data-genre]");
   if (g) { F.genre = g.dataset.genre; render(); return; }
   if (ev.target.closest("[data-reset]")) {
-    Object.assign(F, { genre: "All", year: "all", rating: "all", sort: "popularity" });
+    Object.assign(F, { genre: "All", year: "all", rating: "all", sort: "popularity", voice: "all" });
     render(); toast("Filter direset"); return;
   }
   const cl = ev.target.closest("[data-clear]");
@@ -625,7 +880,19 @@ document.addEventListener("click", (ev) => {
 
 document.addEventListener("change", (ev) => {
   const f = ev.target.closest("[data-f]");
-  if (f) { F[f.dataset.f] = f.value; render(); }
+  if (f) { F[f.dataset.f] = f.value; render(); return; }
+
+  const ss = ev.target.closest("[data-seasonsel]");
+  if (ss) {
+    const it = byId(ss.dataset.item);
+    const sNo = ss.value;
+    if (location.hash.startsWith("#/watch/")) {
+      const s = it.seasons.find(x => x.season == sNo);
+      location.hash = `#/watch/${it.id}/${sNo}/${s.episodes[0].ep}`;
+    } else {
+      location.hash = `#/title/${it.id}/${sNo}`;
+    }
+  }
 });
 
 document.addEventListener("keydown", (ev) => {
