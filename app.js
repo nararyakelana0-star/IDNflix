@@ -16,6 +16,11 @@ const I = {
   sort: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h7M4 18h4"/><path d="M17 5v14M17 19l3-3M17 19l-3-3"/></svg>`,
   layers: (s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 14 9 5 9-5"/></svg>`,
   audio: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>`,
+  eye: (s = 17) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  eyeoff: (s = 17) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 6.2A9.9 9.9 0 0 1 12 6c6.4 0 10 7 10 7a17 17 0 0 1-3 3.8M6.2 6.4A17 17 0 0 0 2 13s3.6 7 10 7a9.7 9.7 0 0 0 4.3-1M3 3l18 18"/></svg>`,
+  user: (s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="8" r="4"/></svg>`,
+  camera: (s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l2-2.5h8L18 8h3v11H3z"/><circle cx="12" cy="13" r="3.6"/></svg>`,
+  logout: (s = 17) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>`,
   chev: (s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`
 };
 
@@ -81,11 +86,17 @@ function voiceSwitchHTML(avail = ["en", "id"], compact) {
     }).join("")}
   </div>`;
 }
+/* Key penyimpanan mengikuti akun yang login, supaya My List tiap santri
+   terpisah. Pengunjung tanpa login tetap memakai key lama. */
+function nsKey(base) {
+  const u = typeof currentUser === "function" ? currentUser() : null;
+  return u ? base + "::" + u.uid : base;
+}
 const store = {
-  get list() { try { return JSON.parse(localStorage.getItem(LS_LIST)) || []; } catch { return []; } },
-  set list(v) { localStorage.setItem(LS_LIST, JSON.stringify(v)); },
-  get cont() { try { return JSON.parse(localStorage.getItem(LS_CONT)) || []; } catch { return []; } },
-  set cont(v) { localStorage.setItem(LS_CONT, JSON.stringify(v)); }
+  get list() { try { return JSON.parse(localStorage.getItem(nsKey(LS_LIST))) || []; } catch { return []; } },
+  set list(v) { localStorage.setItem(nsKey(LS_LIST), JSON.stringify(v)); },
+  get cont() { try { return JSON.parse(localStorage.getItem(nsKey(LS_CONT))) || []; } catch { return []; } },
+  set cont(v) { localStorage.setItem(nsKey(LS_CONT), JSON.stringify(v)); }
 };
 const byId = id => CATALOG.find(x => x.id === id);
 const inList = id => store.list.includes(id);
@@ -372,16 +383,102 @@ function pageMyList() {
     ${footerHTML()}`;
 }
 
+/* ---------- Halaman Login / Daftar ---------- */
+function fieldHTML(id, label, type, placeholder, hint, autocomplete) {
+  const pw = type === "password";
+  return `<div class="fld" data-fld="${id}">
+    <label for="f_${id}">${label}</label>
+    <div class="${pw ? "pw-wrap" : ""}">
+      <input id="f_${id}" name="${id}" type="${type}" placeholder="${placeholder}"
+        autocomplete="${autocomplete || "off"}" spellcheck="false">
+      ${pw ? `<button type="button" class="pw-eye" data-pweye="f_${id}" title="Tampilkan password" aria-label="Tampilkan password">${I.eye()}</button>` : ""}
+    </div>
+    ${hint ? `<div class="hint">${hint}</div>` : ""}
+    <div class="err"></div>
+  </div>`;
+}
+
+function pageLogin() {
+  if (isLoggedIn()) { location.hash = "#/profile"; return ""; }
+  return `<div class="auth-wrap"><div class="auth-card">
+    <div class="auth-tabs">
+      <a class="on" href="#/login">Masuk</a>
+      <a href="#/signup">Daftar</a>
+    </div>
+    <h1>Selamat datang kembali</h1>
+    <p class="lead">Masuk untuk menyimpan My List dan foto profilmu sendiri.</p>
+    <div class="form-err" data-formerr></div>
+    <form data-authform="login" novalidate>
+      ${fieldHTML("user", "Username", "text", "mis. santri.ahmad", "", "username")}
+      ${fieldHTML("pass", "Password", "password", "Masukkan password", "", "current-password")}
+      <button class="auth-btn" type="submit">Masuk</button>
+    </form>
+    <p class="auth-alt">Belum punya akun? <a href="#/signup">Daftar sekarang</a></p>
+    <p class="auth-skip"><a href="#/">Lanjut tanpa akun →</a></p>
+  </div></div>`;
+}
+
+function pageSignup() {
+  if (isLoggedIn()) { location.hash = "#/profile"; return ""; }
+  return `<div class="auth-wrap"><div class="auth-card">
+    <div class="auth-tabs">
+      <a href="#/login">Masuk</a>
+      <a class="on" href="#/signup">Daftar</a>
+    </div>
+    <h1>Buat akun santri</h1>
+    <p class="lead">Gratis, tanpa email. Cukup nama, username, dan password.</p>
+    <div class="form-err" data-formerr></div>
+    <form data-authform="signup" novalidate>
+      ${fieldHTML("name", "Nama Lengkap", "text", "mis. Ahmad Fauzi", "", "name")}
+      ${fieldHTML("user", "Username", "text", "mis. santri.ahmad", "3–20 karakter: huruf, angka, titik, garis bawah.", "username")}
+      ${fieldHTML("pass", "Password", "password", "Minimal 6 karakter", "", "new-password")}
+      ${fieldHTML("pass2", "Ulangi Password", "password", "Ketik ulang password", "", "new-password")}
+      <button class="auth-btn" type="submit">Daftar & Masuk</button>
+    </form>
+    <p class="auth-alt">Sudah punya akun? <a href="#/login">Masuk di sini</a></p>
+    <div class="auth-note">${I.info(15)}
+      <span>Akun disimpan <b>di perangkat ini saja</b>, tidak dikirim ke server mana pun.
+      Jangan pakai password yang kamu gunakan di layanan lain.</span>
+    </div>
+  </div></div>`;
+}
+
 function pageProfile() {
   const list = store.list.length, cont = store.cont.length;
   const eps = CATALOG.reduce((n, i) => n + totalEpisodes(i), 0);
+  const u = currentUser();
+
+  if (!u) {
+    return `<div class="page-head"><h1>Profile</h1><p>Masuk untuk menyimpan My List dan foto profilmu.</p></div>
+      <div style="height:18px"></div>
+      <div class="guest-card">
+        <div class="big" style="width:74px;height:74px;border-radius:22px;margin:0 auto 16px;display:grid;place-items:center;
+          background:linear-gradient(135deg,#3d8bff,#0b4fd1);box-shadow:0 10px 34px rgba(47,125,255,.34)">${I.user(30)}</div>
+        <h3>Kamu belum masuk</h3>
+        <p>Kamu tetap bisa menonton semua tayangan. Buat akun kalau ingin punya
+        foto profil sendiri dan My List yang tidak tercampur dengan santri lain di perangkat ini.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="#/login">${I.user(17)} Masuk</a>
+          <a class="btn btn-ghost" href="#/signup">${I.plus(17)} Daftar</a>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">${list}</div><div class="l">Judul di My List</div></div>
+        <div class="stat"><div class="n">${cont}</div><div class="l">Sedang Ditonton</div></div>
+        <div class="stat"><div class="n">${CATALOG.length}</div><div class="l">Judul di Katalog</div></div>
+        <div class="stat"><div class="n">${eps}</div><div class="l">Total Episode</div></div>
+      </div>
+      ${footerHTML()}`;
+  }
+
   return `<div class="page-head"><h1>Profile</h1><p>Akun nobar santri IDN Boarding School Pamijahan.</p></div>
     <div style="height:18px"></div>
     <div class="profile-hero">
-      <div class="big">S</div>
+      ${avatarHTML(u, "big")}
       <div>
-        <h2 style="margin:0 0 4px;font-size:24px;font-weight:900">Santri IDN</h2>
-        <p style="margin:0;color:#98a0b3;font-size:14px">IDN Boarding School Pamijahan • Anggota Nobar</p>
+        <h2 style="margin:0 0 4px;font-size:24px;font-weight:900">${u.name}</h2>
+        <p style="margin:0;color:#98a0b3;font-size:14px">@${u.user} • IDN Boarding School Pamijahan</p>
+        <p style="margin:4px 0 0;color:#6f7889;font-size:12.5px">Bergabung ${shortDate(u.joined)}</p>
       </div>
     </div>
     <div class="stats">
@@ -391,6 +488,25 @@ function pageProfile() {
       <div class="stat"><div class="n">${eps}</div><div class="l">Total Episode</div></div>
     </div>
     <div style="padding:6px clamp(16px,4vw,48px) 4px">
+      <div class="side-card" style="max-width:520px;margin-bottom:16px">
+        <h4>Foto Profil</h4>
+        <div class="pfp-edit" style="margin-top:14px">
+          <div class="pfp-drop" data-pfpdrop tabindex="0" role="button" aria-label="Ganti foto profil">
+            ${u.pfp ? `<img src="${u.pfp}" alt="Foto profil">` : `<span class="ini">${userInitials()}</span>`}
+            <span class="ov">${I.camera(22)}<span>Ganti Foto</span></span>
+          </div>
+          <div class="pfp-side">
+            <h5>Unggah fotomu sendiri</h5>
+            <p>Klik kotak di samping, atau seret gambar ke sana. JPG, PNG, WebP, atau GIF — maksimal 5 MB.
+            Gambar otomatis dipotong jadi kotak 256×256 supaya ringan.</p>
+            <div class="pfp-btns">
+              <button class="pill" data-pfppick>${I.camera(15)} Pilih Gambar</button>
+              ${u.pfp ? `<button class="pill danger" data-pfpremove>Hapus Foto</button>` : ""}
+            </div>
+          </div>
+        </div>
+        <input type="file" accept="image/*" data-pfpinput hidden>
+      </div>
       <div class="side-card" style="max-width:520px">
         <h4>Preferensi Suara</h4>
         <p style="margin:0 0 14px;font-size:13.5px;color:#b8c0d0;line-height:1.6">
@@ -403,6 +519,8 @@ function pageProfile() {
     <div style="padding:8px clamp(16px,4vw,48px) 40px;display:flex;gap:10px;flex-wrap:wrap">
       <button class="pill" data-clear="list">Kosongkan My List</button>
       <button class="pill" data-clear="cont">Hapus Riwayat Tonton</button>
+      <button class="pill" data-logout>${I.logout(15)} Keluar</button>
+      <button class="pill danger" data-delacc>Hapus Akun</button>
     </div>
     ${footerHTML()}`;
 }
@@ -418,7 +536,7 @@ function pageTitle(id, seasonNo) {
     const s = item.seasons.find(x => x.season == seasonNo) || item.seasons[0];
     seasonBlock = `
       <div class="season-bar" style="margin-top:26px">
-        ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/title/${id}/${x.season}">Season ${x.season}</button>`).join("")}
+        ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/title/${id}/${x.season}">${seasonLabel(x)}</button>`).join("")}
       </div>
       ${episodesBlockHTML(item, s, null)}`;
   }
@@ -463,19 +581,26 @@ function pageTitle(id, seasonNo) {
     ${footerHTML()}`;
 }
 
+/* Label season: pakai judul season kalau ada (mis. "Alam Semesta"),
+   selain itu jatuh ke "Season N". */
+function seasonLabel(s, long) {
+  if (!s.title) return `Season ${s.season}`;
+  return long ? `Season ${s.season} — ${s.title}` : s.title;
+}
+
 /* ---------- Episode card (grid style, gaya referensi) ---------- */
 function epCardHTML(item, s, e, playing = false) {
   const nat = nativeLang(item);
   const vid = voiceVideoId(e, VOICE, item);
   const ttl = voiceTitle(e, VOICE);
-  const date = voiceAirDate(e, VOICE);
+  const date = epDateLabel(e, VOICE);
   // tandai kalau bahasa pilihan user tidak tersedia -> fallback ke bahasa asli
   const fellBack = VOICE !== nat && !hasVoice(e, VOICE, item);
   const shownLang = fellBack ? nat : VOICE;
   return `<article class="epc ${playing ? "playing" : ""}" data-go="#/watch/${item.id}/${s.season}/${e.ep}">
     <div class="shot">
       <span class="ep-tag se">S${String(s.season).padStart(2, "0")}E${String(e.ep).padStart(2, "0")}</span>
-      ${date ? `<span class="ep-tag date">${shortDate(date)}</span>` : ""}
+      ${date ? `<span class="ep-tag date">${date}</span>` : ""}
       <span class="ep-tag dur">${e.duration}</span>
       <span class="audio-badge">${VOICES[shownLang].flag} ${VOICES[shownLang].short}</span>
       <img loading="lazy" data-src="https://i.ytimg.com/vi/${vid}/hqdefault.jpg" alt="${ttl}">
@@ -504,7 +629,7 @@ function episodesBlockHTML(item, s, currentEp) {
           ${I.sort()} <span>${EPSORT.desc ? "Newest" : "Oldest"}</span>
         </button>
         <select class="season-select" data-seasonsel data-item="${item.id}">
-          ${item.seasons.map(x => `<option value="${x.season}"${x.season === s.season ? " selected" : ""}>Season ${x.season}</option>`).join("")}
+          ${item.seasons.map(x => `<option value="${x.season}"${x.season === s.season ? " selected" : ""}>${seasonLabel(x, true)}</option>`).join("")}
         </select>
       </div>
     </div>
@@ -602,13 +727,13 @@ function pageWatch(id, seasonNo, epNo) {
     fellBack = VOICE !== nat && !hasVoice(e, VOICE, item);
     vid = voiceVideoId(e, VOICE, item);
     heading = item.title;
-    sub = `Season ${s.season} • Episode ${e.ep} — ${voiceTitle(e, VOICE)}`;
+    sub = `${seasonLabel(s, true)} • Episode ${e.ep} — ${voiceTitle(e, VOICE)}`;
     desc = e.description || item.description;
     extra = `<div class="season-bar" style="margin-top:22px">
-        ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/watch/${id}/${x.season}/${x.episodes[0].ep}">Season ${x.season}</button>`).join("")}
+        ${item.seasons.map(x => `<button class="pill ${x.season === s.season ? "active" : ""}" data-go="#/watch/${id}/${x.season}/${x.episodes[0].ep}">${seasonLabel(x)}</button>`).join("")}
       </div>`;
     sideEps = `<div class="side-card" style="margin-top:16px">
-        <h4>Season ${s.season} • ${s.episodes.length} Episode</h4>
+        <h4>${seasonLabel(s, true)} • ${s.episodes.length} Episode</h4>
         <div class="ep-list">${s.episodes.map(x => epHTML(item, s, x, x.ep === e.ep)).join("")}</div>
       </div>`;
     watchEpisodes = `<div style="padding:0 clamp(16px,4vw,48px)">${episodesBlockHTML(item, s, e.ep)}</div>`;
@@ -706,6 +831,84 @@ function footerHTML() {
   </p></footer>`;
 }
 
+/* ---------- Navbar: avatar & menu sesuai status login ---------- */
+function paintNavUser() {
+  const a = document.querySelector(".avatar");
+  if (a) {
+    const u = currentUser();
+    a.setAttribute("href", u ? "#/profile" : "#/login");
+    a.innerHTML = u
+      ? `${avatarHTML(u, "pic")}<span>${u.name.split(/\s+/)[0]}</span>`
+      : `<span class="pic">${I.user(15)}</span><span>Masuk</span>`;
+    a.title = u ? `Masuk sebagai ${u.name}` : "Masuk atau daftar";
+  }
+  const link = document.querySelector('.nav-links a[href="#/profile"]');
+  if (link) link.textContent = currentUser() ? "Profile" : "Masuk";
+}
+
+/* ---------- Form auth ---------- */
+function showFieldErrors(form, errs) {
+  form.querySelectorAll("[data-fld]").forEach(f => {
+    const msg = errs[f.dataset.fld];
+    f.classList.toggle("bad", !!msg);
+    f.querySelector(".err").textContent = msg || "";
+  });
+  const first = form.querySelector(".fld.bad input");
+  if (first) first.focus();
+}
+function showFormError(scope, msg) {
+  const box = scope.querySelector("[data-formerr]");
+  if (!box) return;
+  box.textContent = msg || "";
+  box.classList.toggle("show", !!msg);
+}
+
+function handleAuthSubmit(form) {
+  const mode = form.dataset.authform;
+  const val = k => (form.querySelector(`[name="${k}"]`)?.value || "");
+  const card = form.closest(".auth-card");
+  showFormError(card, "");
+
+  if (mode === "signup") {
+    const data = { name: val("name"), user: val("user"), pass: val("pass"), pass2: val("pass2") };
+    const errs = validateSignup(data);
+    showFieldErrors(form, errs);
+    if (Object.keys(errs).length) return;
+    try {
+      const u = signup(data);
+      toast(`Akun dibuat. Selamat datang, ${u.name.split(/\s+/)[0]}!`);
+      location.hash = "#/profile";
+    } catch (err) {
+      showFormError(card, "Gagal menyimpan akun — penyimpanan browser mungkin penuh.");
+    }
+    return;
+  }
+
+  const errs = {};
+  if (!val("user").trim()) errs.user = "Username wajib diisi.";
+  if (!val("pass")) errs.pass = "Password wajib diisi.";
+  showFieldErrors(form, errs);
+  if (Object.keys(errs).length) return;
+
+  const res = login(val("user"), val("pass"));
+  if (!res.ok) { showFormError(card, res.error); return; }
+  toast(`Selamat datang kembali, ${res.user.name.split(/\s+/)[0]}!`);
+  location.hash = "#/profile";
+}
+
+/* ---------- Upload foto profil ---------- */
+async function applyAvatarFile(file) {
+  try {
+    const dataUrl = await readAvatarFile(file);
+    const res = setAvatar(dataUrl);
+    if (!res.ok) { toast(res.error, false); return; }
+    render();
+    toast("Foto profil diperbarui");
+  } catch (err) {
+    toast(err.message || "Gagal mengunggah foto.", false);
+  }
+}
+
 /* ---------- Router ---------- */
 const view = () => document.getElementById("view");
 
@@ -721,6 +924,8 @@ function route() {
     case "search": return { name: "search", q: p[1] };
     case "mylist": return { name: "mylist" };
     case "profile": return { name: "profile" };
+    case "login": return { name: "login" };
+    case "signup": return { name: "signup" };
     case "title": return { name: "title", id: p[1], s: p[2] };
     case "watch": return { name: "watch", id: p[1], s: p[2], e: p[3] };
     default: return { name: "home" };
@@ -730,6 +935,9 @@ function route() {
 function render() {
   const r = route();
   const v = view();
+  // Kata kunci pencarian hanya berlaku di halaman Search — kalau tidak direset,
+  // katalog/genre ikut tersaring dan tampil kosong tanpa sebab yang jelas.
+  if (r.name !== "search") F.q = "";
   v.innerHTML = skeletonGrid(8);
   v.style.paddingTop = ["home", "title", "watch"].includes(r.name) ? "0" : "0";
 
@@ -744,6 +952,8 @@ function render() {
       case "search": html = pageSearch(r.q); break;
       case "mylist": html = pageMyList(); break;
       case "profile": html = pageProfile(); break;
+      case "login": html = pageLogin(); break;
+      case "signup": html = pageSignup(); break;
       case "title": html = pageTitle(r.id, r.s); break;
       case "watch": html = pageWatch(r.id, r.s, r.e); break;
     }
@@ -753,6 +963,7 @@ function render() {
     markNav(r);
     const nv = document.getElementById("navVoice");
     if (nv) nv.innerHTML = voiceSwitchHTML(["en", "id"], true);
+    paintNavUser();
     if (r.name === "search") {
       const inp = document.getElementById("pageSearch");
       if (inp) {
@@ -849,6 +1060,41 @@ document.addEventListener("click", (ev) => {
     return;
   }
 
+  const eye = ev.target.closest("[data-pweye]");
+  if (eye) {
+    ev.preventDefault();
+    const inp = document.getElementById(eye.dataset.pweye);
+    const show = inp.type === "password";
+    inp.type = show ? "text" : "password";
+    eye.innerHTML = show ? I.eyeoff() : I.eye();
+    eye.title = show ? "Sembunyikan password" : "Tampilkan password";
+    inp.focus();
+    return;
+  }
+
+  if (ev.target.closest("[data-pfppick]") || ev.target.closest("[data-pfpdrop]")) {
+    ev.preventDefault();
+    const inp = document.querySelector("[data-pfpinput]");
+    if (inp) inp.click();
+    return;
+  }
+  if (ev.target.closest("[data-pfpremove]")) {
+    removeAvatar(); render(); toast("Foto profil dihapus", false); return;
+  }
+  if (ev.target.closest("[data-logout]")) {
+    const n = displayName().split(/\s+/)[0];
+    logout(); location.hash = "#/"; render();
+    toast(`Sampai jumpa, ${n}!`, false);
+    return;
+  }
+  if (ev.target.closest("[data-delacc]")) {
+    if (confirm("Hapus akun ini beserta My List dan riwayat tontonnya? Tindakan ini tidak bisa dibatalkan.")) {
+      deleteAccount(); location.hash = "#/"; render();
+      toast("Akun dihapus", false);
+    }
+    return;
+  }
+
   const es = ev.target.closest("[data-epsort]");
   if (es) {
     EPSORT.desc = !EPSORT.desc;
@@ -879,6 +1125,14 @@ document.addEventListener("click", (ev) => {
 });
 
 document.addEventListener("change", (ev) => {
+  const pf = ev.target.closest("[data-pfpinput]");
+  if (pf) {
+    const file = pf.files && pf.files[0];
+    pf.value = "";
+    if (file) applyAvatarFile(file);
+    return;
+  }
+
   const f = ev.target.closest("[data-f]");
   if (f) { F[f.dataset.f] = f.value; render(); return; }
 
@@ -895,7 +1149,40 @@ document.addEventListener("change", (ev) => {
   }
 });
 
+document.addEventListener("submit", (ev) => {
+  const form = ev.target.closest("[data-authform]");
+  if (form) { ev.preventDefault(); handleAuthSubmit(form); }
+});
+
+/* Seret & lepas gambar ke kotak foto profil */
+["dragenter", "dragover"].forEach(t => document.addEventListener(t, (ev) => {
+  const d = ev.target.closest("[data-pfpdrop]");
+  if (!d) return;
+  ev.preventDefault();
+  d.classList.add("drag");
+}));
+document.addEventListener("dragleave", (ev) => {
+  const d = ev.target.closest("[data-pfpdrop]");
+  if (d && !d.contains(ev.relatedTarget)) d.classList.remove("drag");
+});
+document.addEventListener("drop", (ev) => {
+  const d = ev.target.closest("[data-pfpdrop]");
+  if (!d) return;
+  ev.preventDefault();
+  d.classList.remove("drag");
+  const file = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+  if (file) applyAvatarFile(file);
+});
+
 document.addEventListener("keydown", (ev) => {
+  // Enter/Spasi pada kotak foto profil = buka pemilih file
+  const d = document.activeElement && document.activeElement.closest && document.activeElement.closest("[data-pfpdrop]");
+  if (d && (ev.key === "Enter" || ev.key === " ")) {
+    ev.preventDefault();
+    const inp = document.querySelector("[data-pfpinput]");
+    if (inp) inp.click();
+    return;
+  }
   if (ev.key === "Escape") closeSearch();
   if ((ev.key === "/" || (ev.ctrlKey && ev.key === "k")) && !/input|textarea/i.test(document.activeElement.tagName)) {
     ev.preventDefault(); openSearch();
@@ -919,6 +1206,7 @@ document.addEventListener("DOMContentLoaded", () => {
   mi.addEventListener("keydown", e => {
     if (e.key === "Enter" && mi.value.trim()) { closeSearch(); location.hash = "#/search/" + encodeURIComponent(mi.value.trim()); }
   });
+  paintNavUser();
   if (!location.hash) location.hash = "#/";
   render();
 });

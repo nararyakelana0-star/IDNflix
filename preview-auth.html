@@ -1,3 +1,7 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IDNflix — Preview Login & Foto Profil</title>
+<style>
 /* ============ IDNFLIX — Nobar Untuk Santri IDN ============ */
 :root{
   --bg:#08090d;
@@ -821,3 +825,262 @@ footer .links{display:flex;flex-wrap:wrap;gap:18px}
   .pfp-edit{gap:16px}
   .pfp-drop{width:96px;height:96px;border-radius:24px}
 }
+
+body{background:#070a10;padding:0}
+.pv{max-width:1180px;margin:0 auto 46px;padding:0 18px}
+.pv-h{padding:34px 4px 16px}
+.pv-h h2{margin:0 0 6px;font-size:21px;font-weight:900;letter-spacing:-.4px}
+.pv-h p{margin:0;color:#8b95a8;font-size:13.5px;line-height:1.6;max-width:760px}
+.pv-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg);position:relative}
+.pv-frame .auth-wrap{min-height:auto;padding:42px 16px}
+.pv-title{max-width:1180px;margin:0 auto;padding:52px 22px 6px}
+.pv-title h1{margin:0 0 8px;font-size:30px;font-weight:900;letter-spacing:-1px}
+.pv-title p{margin:0;color:#98a0b3;font-size:14.5px;line-height:1.65;max-width:780px}
+.pv-note{max-width:1180px;margin:0 auto 8px;padding:0 22px}
+.pv-note div{display:flex;gap:10px;padding:14px 16px;border-radius:14px;font-size:13px;line-height:1.65;
+  background:rgba(47,125,255,.07);border:1px solid rgba(47,125,255,.2);color:#a9b4c8}
+.nav{position:static}
+</style></head><body>
+<div class="pv-title"><h1>Login, Daftar & Foto Profil</h1>
+<p>Tampilan asli hasil render aplikasi — markup dan CSS diambil langsung dari <code>app.js</code>,
+<code>auth.js</code>, dan <code>styles.css</code>. Halaman ini hanya untuk melihat hasilnya; versi
+yang bisa diklik ada di <code>index.html</code>.</p></div>
+<div class="pv-note"><div>ℹ️ Login bersifat <b>opsional</b> — tanpa akun pun semua tayangan tetap bisa ditonton.
+Akun berguna supaya My List dan foto profil tiap santri tidak tercampur di perangkat bersama.</div></div>
+<section class="pv">
+  <div class="pv-h"><h2>1 · Halaman Masuk</h2><p>Tab Masuk/Daftar, tombol mata untuk mengintip password, dan tautan lanjut tanpa akun.</p></div>
+  <div class="pv-frame" style="padding:0"><div class="auth-wrap"><div class="auth-card">
+    <div class="auth-tabs">
+      <a class="on" href="#/login">Masuk</a>
+      <a href="#/signup">Daftar</a>
+    </div>
+    <h1>Selamat datang kembali</h1>
+    <p class="lead">Masuk untuk menyimpan My List dan foto profilmu sendiri.</p>
+    <div class="form-err" data-formerr=""></div>
+    <form data-authform="login" novalidate="">
+      <div class="fld" data-fld="user">
+    <label for="f_user">Username</label>
+    <div class="">
+      <input id="f_user" name="user" type="text" placeholder="mis. santri.ahmad" autocomplete="username" spellcheck="false">
+      
+    </div>
+    
+    <div class="err"></div>
+  </div>
+      <div class="fld" data-fld="pass">
+    <label for="f_pass">Password</label>
+    <div class="pw-wrap">
+      <input id="f_pass" name="pass" type="password" placeholder="Masukkan password" autocomplete="current-password" spellcheck="false">
+      <button type="button" class="pw-eye" data-pweye="f_pass" title="Tampilkan password" aria-label="Tampilkan password"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+    </div>
+    
+    <div class="err"></div>
+  </div>
+      <button class="auth-btn" type="submit">Masuk</button>
+    </form>
+    <p class="auth-alt">Belum punya akun? <a href="#/signup">Daftar sekarang</a></p>
+    <p class="auth-skip"><a href="#/">Lanjut tanpa akun →</a></p>
+  </div></div></div>
+</section>
+<section class="pv">
+  <div class="pv-h"><h2>2 · Halaman Daftar</h2><p>Empat kolom dengan validasi langsung. Ada catatan jujur bahwa akun hanya tersimpan di perangkat ini.</p></div>
+  <div class="pv-frame" style="padding:0"><div class="auth-wrap"><div class="auth-card">
+    <div class="auth-tabs">
+      <a href="#/login">Masuk</a>
+      <a class="on" href="#/signup">Daftar</a>
+    </div>
+    <h1>Buat akun santri</h1>
+    <p class="lead">Gratis, tanpa email. Cukup nama, username, dan password.</p>
+    <div class="form-err" data-formerr=""></div>
+    <form data-authform="signup" novalidate="">
+      <div class="fld" data-fld="name">
+    <label for="f_name">Nama Lengkap</label>
+    <div class="">
+      <input id="f_name" name="name" type="text" placeholder="mis. Ahmad Fauzi" autocomplete="name" spellcheck="false">
+      
+    </div>
+    
+    <div class="err"></div>
+  </div>
+      <div class="fld" data-fld="user">
+    <label for="f_user">Username</label>
+    <div class="">
+      <input id="f_user" name="user" type="text" placeholder="mis. santri.ahmad" autocomplete="username" spellcheck="false">
+      
+    </div>
+    <div class="hint">3–20 karakter: huruf, angka, titik, garis bawah.</div>
+    <div class="err"></div>
+  </div>
+      <div class="fld" data-fld="pass">
+    <label for="f_pass">Password</label>
+    <div class="pw-wrap">
+      <input id="f_pass" name="pass" type="password" placeholder="Minimal 6 karakter" autocomplete="new-password" spellcheck="false">
+      <button type="button" class="pw-eye" data-pweye="f_pass" title="Tampilkan password" aria-label="Tampilkan password"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+    </div>
+    
+    <div class="err"></div>
+  </div>
+      <div class="fld" data-fld="pass2">
+    <label for="f_pass2">Ulangi Password</label>
+    <div class="pw-wrap">
+      <input id="f_pass2" name="pass2" type="password" placeholder="Ketik ulang password" autocomplete="new-password" spellcheck="false">
+      <button type="button" class="pw-eye" data-pweye="f_pass2" title="Tampilkan password" aria-label="Tampilkan password"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+    </div>
+    
+    <div class="err"></div>
+  </div>
+      <button class="auth-btn" type="submit">Daftar &amp; Masuk</button>
+    </form>
+    <p class="auth-alt">Sudah punya akun? <a href="#/login">Masuk di sini</a></p>
+    <div class="auth-note"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+      <span>Akun disimpan <b>di perangkat ini saja</b>, tidak dikirim ke server mana pun.
+      Jangan pakai password yang kamu gunakan di layanan lain.</span>
+    </div>
+  </div></div></div>
+</section>
+<section class="pv">
+  <div class="pv-h"><h2>3 · Navbar setelah login</h2><p>Avatar memakai foto asli dan menampilkan nama depan. Sebelum login tertulis “Masuk”.</p></div>
+  <div class="pv-frame" style="padding:0"><nav class="nav">
+  <a class="brand" href="#/">
+    <span class="logo">IDNflix</span>
+    <span class="tag">Nobar Untuk Santri IDN</span>
+  </a>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#/" class="">Home</a>
+    <a href="#/tv">TV Shows</a>
+    <a href="#/movies">Movies</a>
+    <a href="#/genres">Genres</a>
+    <a href="#/search">Search</a>
+    <a href="#/mylist">My List</a>
+    <a href="#/profile" class="active">Profile</a>
+  </div>
+
+  <div class="nav-right">
+    <div id="navVoice"><div class="voice-box">
+    
+    <button class="vbtn  " data-voice="en" title="Putar dengan suara English">
+        <span class="fl">🇬🇧</span>EN</button><button class="vbtn active " data-voice="id" title="Putar dengan suara Indonesia">
+        <span class="fl">🇮🇩</span>ID</button>
+  </div></div>
+    <button class="icon-btn" id="btnSearch" title="Cari (tekan /)"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.2-3.2"></path></svg></button>
+    <a class="avatar" href="#/profile" title="Masuk sebagai Ahmad Fauzi"><span class="pic"><img src="data:image/svg+xml,<svg xmlns=" http:="" www.w3.org="" 2000="" svg"="" width="256" height="256"><defs><lineargradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%232f7dff"><stop offset="1" stop-color="%230b1220"></stop></stop></lineargradient></defs><rect width="256" height="256" fill="url(%23g)"><circle cx="128" cy="98" r="42" fill="rgba(255,255,255,.85)"><path d="M40 250c8-56 42-84 88-84s80 28 88 84z" fill="rgba(255,255,255,.85)">" alt="Foto profil Ahmad Fauzi"&gt;</path></circle></rect></span><span>Ahmad</span></a>
+    <button class="icon-btn burger" id="burger" title="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+  </div>
+</nav></div>
+</section>
+<section class="pv">
+  <div class="pv-h"><h2>4 · Profile — belum masuk</h2><p>Pengunjung tetap melihat statistik katalog, plus ajakan masuk atau daftar.</p></div>
+  <div class="pv-frame" style="padding:22px 0"><div class="page-head"><h1>Profile</h1><p>Masuk untuk menyimpan My List dan foto profilmu.</p></div>
+      <div style="height:18px"></div>
+      <div class="guest-card">
+        <div class="big" style="width:74px;height:74px;border-radius:22px;margin:0 auto 16px;display:grid;place-items:center;
+          background:linear-gradient(135deg,#3d8bff,#0b4fd1);box-shadow:0 10px 34px rgba(47,125,255,.34)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"></path><circle cx="12" cy="8" r="4"></circle></svg></div>
+        <h3>Kamu belum masuk</h3>
+        <p>Kamu tetap bisa menonton semua tayangan. Buat akun kalau ingin punya
+        foto profil sendiri dan My List yang tidak tercampur dengan santri lain di perangkat ini.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="#/login"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"></path><circle cx="12" cy="8" r="4"></circle></svg> Masuk</a>
+          <a class="btn btn-ghost" href="#/signup"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg> Daftar</a>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">0</div><div class="l">Judul di My List</div></div>
+        <div class="stat"><div class="n">0</div><div class="l">Sedang Ditonton</div></div>
+        <div class="stat"><div class="n">15</div><div class="l">Judul di Katalog</div></div>
+        <div class="stat"><div class="n">97</div><div class="l">Total Episode</div></div>
+      </div>
+      <footer><div class="frow">
+    <div>
+      <div class="fbrand">IDN<span>flix</span></div>
+      <p style="margin:6px 0 0;max-width:340px;line-height:1.6">
+        Platform nobar &amp; streaming untuk santri IDN Boarding School Pamijahan.
+        Seluruh video diputar melalui YouTube Embed dari channel aslinya.
+      </p>
+    </div>
+    <div class="links">
+      <a href="#/">Home</a><a href="#/tv">TV Shows</a><a href="#/movies">Movies</a>
+      <a href="#/genres">Genres</a><a href="#/mylist">My List</a><a href="#/profile">Profile</a>
+    </div>
+  </div>
+  <p style="margin:26px 0 0;font-size:12px;opacity:.65">
+    © 2026 IDNflix — Nobar Untuk Santri IDN. Konten milik channel FreeQuranEducation.
+  </p></footer></div>
+</section>
+<section class="pv">
+  <div class="pv-h"><h2>5 · Profile — sudah masuk + foto profil</h2><p>Kotak foto bisa diklik atau diseret gambar ke atasnya. Gambar otomatis dipotong kotak 256×256.</p></div>
+  <div class="pv-frame" style="padding:22px 0"><div class="page-head"><h1>Profile</h1><p>Akun nobar santri IDN Boarding School Pamijahan.</p></div>
+    <div style="height:18px"></div>
+    <div class="profile-hero">
+      <span class="big"><img src="data:image/svg+xml,<svg xmlns=" http:="" www.w3.org="" 2000="" svg"="" width="256" height="256"><defs><lineargradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%232f7dff"><stop offset="1" stop-color="%230b1220"></stop></stop></lineargradient></defs><rect width="256" height="256" fill="url(%23g)"><circle cx="128" cy="98" r="42" fill="rgba(255,255,255,.85)"><path d="M40 250c8-56 42-84 88-84s80 28 88 84z" fill="rgba(255,255,255,.85)">" alt="Foto profil Ahmad Fauzi"&gt;</path></circle></rect></span>
+      <div>
+        <h2 style="margin:0 0 4px;font-size:24px;font-weight:900">Ahmad Fauzi</h2>
+        <p style="margin:0;color:#98a0b3;font-size:14px">@santri.ahmad • IDN Boarding School Pamijahan</p>
+        <p style="margin:4px 0 0;color:#6f7889;font-size:12.5px">Bergabung 10 Sep 26</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">2</div><div class="l">Judul di My List</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Sedang Ditonton</div></div>
+      <div class="stat"><div class="n">15</div><div class="l">Judul di Katalog</div></div>
+      <div class="stat"><div class="n">97</div><div class="l">Total Episode</div></div>
+    </div>
+    <div style="padding:6px clamp(16px,4vw,48px) 4px">
+      <div class="side-card" style="max-width:520px;margin-bottom:16px">
+        <h4>Foto Profil</h4>
+        <div class="pfp-edit" style="margin-top:14px">
+          <div class="pfp-drop" data-pfpdrop="" tabindex="0" role="button" aria-label="Ganti foto profil">
+            <img src="data:image/svg+xml,<svg xmlns=" http:="" www.w3.org="" 2000="" svg"="" width="256" height="256"><defs><lineargradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%232f7dff"><stop offset="1" stop-color="%230b1220"></stop></stop></lineargradient></defs><rect width="256" height="256" fill="url(%23g)"><circle cx="128" cy="98" r="42" fill="rgba(255,255,255,.85)"><path d="M40 250c8-56 42-84 88-84s80 28 88 84z" fill="rgba(255,255,255,.85)">" alt="Foto profil"&gt;
+            <span class="ov"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l2-2.5h8L18 8h3v11H3z"></path><circle cx="12" cy="13" r="3.6"></circle></svg><span>Ganti Foto</span></span>
+          </path></circle></rect></div>
+          <div class="pfp-side">
+            <h5>Unggah fotomu sendiri</h5>
+            <p>Klik kotak di samping, atau seret gambar ke sana. JPG, PNG, WebP, atau GIF — maksimal 5 MB.
+            Gambar otomatis dipotong jadi kotak 256×256 supaya ringan.</p>
+            <div class="pfp-btns">
+              <button class="pill" data-pfppick=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l2-2.5h8L18 8h3v11H3z"></path><circle cx="12" cy="13" r="3.6"></circle></svg> Pilih Gambar</button>
+              <button class="pill danger" data-pfpremove="">Hapus Foto</button>
+            </div>
+          </div>
+        </div>
+        <input type="file" accept="image/*" data-pfpinput="" hidden="">
+      </div>
+      <div class="side-card" style="max-width:520px">
+        <h4>Preferensi Suara</h4>
+        <p style="margin:0 0 14px;font-size:13.5px;color:#b8c0d0;line-height:1.6">
+          Pilih bahasa suara default saat memutar tayangan. Pilihan ini tersimpan di perangkatmu.
+        </p>
+        <div class="voice-box">
+    <span class="vlabel">Suara</span>
+    <button class="vbtn  " data-voice="en" title="Putar dengan suara English">
+        <span class="fl">🇬🇧</span>EN</button><button class="vbtn active " data-voice="id" title="Putar dengan suara Indonesia">
+        <span class="fl">🇮🇩</span>ID</button>
+  </div>
+      </div>
+    </div>
+    
+    <div style="padding:8px clamp(16px,4vw,48px) 40px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="pill" data-clear="list">Kosongkan My List</button>
+      <button class="pill" data-clear="cont">Hapus Riwayat Tonton</button>
+      <button class="pill" data-logout=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="m16 17 5-5-5-5M21 12H9"></path></svg> Keluar</button>
+      <button class="pill danger" data-delacc="">Hapus Akun</button>
+    </div>
+    <footer><div class="frow">
+    <div>
+      <div class="fbrand">IDN<span>flix</span></div>
+      <p style="margin:6px 0 0;max-width:340px;line-height:1.6">
+        Platform nobar &amp; streaming untuk santri IDN Boarding School Pamijahan.
+        Seluruh video diputar melalui YouTube Embed dari channel aslinya.
+      </p>
+    </div>
+    <div class="links">
+      <a href="#/">Home</a><a href="#/tv">TV Shows</a><a href="#/movies">Movies</a>
+      <a href="#/genres">Genres</a><a href="#/mylist">My List</a><a href="#/profile">Profile</a>
+    </div>
+  </div>
+  <p style="margin:26px 0 0;font-size:12px;opacity:.65">
+    © 2026 IDNflix — Nobar Untuk Santri IDN. Konten milik channel FreeQuranEducation.
+  </p></footer></div>
+</section>
+<div style="height:60px"></div>
+</body></html>

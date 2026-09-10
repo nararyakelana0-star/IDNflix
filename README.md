@@ -312,6 +312,23 @@ dari channel **[Outdoor Boys](https://www.youtube.com/@OutdoorBoys)** milik Luke
 > Kontennya tetap aman dan mendidik untuk santri: keterampilan bertahan hidup,
 > kerja keras, dan kekaguman pada alam ciptaan Allah.
 
+#### Kok Bisa
+
+Serial animasi edukasi dari channel **[Kok Bisa?](https://www.youtube.com/@KokBisa)** —
+menjawab pertanyaan sehari-hari dengan penjelasan ilmiah yang ringkas. **77 episode
+pilihan**, dikelompokkan jadi 4 season:
+
+| Season | Judul | Episode |
+| --- | --- | --- |
+| 1 | Alam Semesta dan Luar Angkasa | 32 |
+| 2 | Seri Tokoh Bangsa | 13 |
+| 3 | Taman Edukasi: Belajar IPA | 8 |
+| 4 | Terbaru: Sains & Dunia Kita | 24 |
+
+Berbahasa **Indonesia** (`audioLang: "id"`), jadi opsi English dinonaktifkan otomatis.
+Episode hanya menyimpan tahun rilis (`airYear`) alih-alih tanggal penuh — lihat catatan
+di bawah.
+
 #### Dub Indonesia I'm The Best Muslim
 
 Total **42 video versi Indonesia** dari channel
@@ -340,6 +357,78 @@ Season 4 Compilation, Ramadan Compilation, serta trailer & teaser resmi.
 
 ---
 
+## 🔐 Akun & Foto Profil
+
+Login bersifat **opsional** — tanpa akun pun semua tayangan tetap bisa ditonton.
+Akun berguna agar My List, riwayat tonton, dan foto profil tiap santri tidak
+tercampur saat satu perangkat dipakai bergantian.
+
+| Halaman | Route |
+| --- | --- |
+| Masuk | `#/login` |
+| Daftar | `#/signup` |
+| Profil | `#/profile` |
+
+**Daftar** butuh nama, username (3–20 karakter: huruf, angka, titik, garis bawah),
+dan password minimal 6 karakter. Tanpa email.
+
+**Foto profil** — di halaman Profile, klik kotak avatar atau seret gambar ke atasnya.
+Menerima JPG, PNG, WebP, dan GIF sampai 5 MB. Gambar otomatis dipotong dari tengah
+lalu dikecilkan jadi 256×256 JPEG (±20–40 KB) supaya muat di `localStorage`.
+
+### ⚠️ Batas keamanan — baca sebelum dipakai luas
+
+Situs ini statis, jadi akun disimpan di **`localStorage` browser**, bukan server.
+
+- Password **tidak** disimpan sebagai teks polos — di-hash SHA-256 dengan salt acak per akun.
+- **Tapi ini bukan keamanan sungguhan.** Siapa pun yang bisa membuka DevTools di
+  perangkat itu tetap bisa membaca isinya, dan akun **tidak sinkron antar perangkat**.
+- Cukup untuk memisahkan profil antar santri di satu laptop nobar. **Jangan** pakai
+  password yang dipakai di layanan lain.
+
+Kalau nanti butuh akun lintas perangkat yang benar-benar aman, `auth.js` perlu
+dipindahkan ke backend dengan bcrypt/argon2 di belakang HTTPS.
+
+### Penyimpanan
+
+| Key | Isi |
+| --- | --- |
+| `idnflix.users` | Semua akun di perangkat ini |
+| `idnflix.session` | UID akun yang sedang login |
+| `idnflix.mylist::<uid>` | My List per akun |
+| `idnflix.continue::<uid>` | Riwayat tonton per akun |
+| `idnflix.voice` | Preferensi bahasa suara |
+
+Pengunjung tanpa login tetap memakai key lama tanpa akhiran, jadi data lama tidak hilang.
+
+---
+
+## 🧪 Tes
+
+Suite JSDOM ada di folder `tests/`:
+
+```bash
+npm i jsdom
+NODE_PATH=./node_modules node tests/catalog.test.js   # 48 assertion
+NODE_PATH=./node_modules node tests/auth.test.js      # 81 assertion
+NODE_PATH=./node_modules node tests/kokbisa.test.js   # 65 assertion
+```
+
+### Catatan tanggal episode
+
+Season 4 berisi 24 unggahan terbaru channel (semuanya 2026), diurutkan kronologis
+sehingga episode terakhir adalah video paling baru. Judul diambil dalam bahasa
+Indonesia asli lewat oEmbed — halaman playlist menampilkan judul yang sudah
+diterjemahkan otomatis ke Inggris, jadi jangan pakai itu.
+
+Sebagian besar episode menyimpan `airDate` lengkap (`YYYY-MM-DD`). Untuk Kok Bisa,
+halaman `watch` YouTube menolak permintaan beruntun (rate limit), sehingga tanggal
+persisnya tidak bisa diverifikasi. Daripada mengarang tanggal, episode-episode itu
+memakai `airYear` (tahun saja) dan badge kartu menampilkan tahunnya. Fungsi
+`epDateLabel()` di `data.js` menangani kedua format ini.
+
+---
+
 ## 🙏 Kredit
 
 Seluruh konten video tetap menjadi hak milik pembuatnya masing-masing.
@@ -349,6 +438,7 @@ IDNflix hanya menampilkan katalog dan memutar video melalui YouTube Embed resmi.
 - 🇮🇩 **[FreeQuranEducationIndonesia](https://www.youtube.com/@IndonesianFreeQuranEducation)** — versi dub Indonesia
 - 🇮🇩 **[Yufid.TV](https://www.youtube.com/@yufid)** — Epic Story bersama Ustadz Johan Saputra Halim, M.H.I.
 - 🌲 **[Outdoor Boys](https://www.youtube.com/@OutdoorBoys)** — Luke Nichols, petualangan & survival Alaska
+- 🧠 **[Kok Bisa?](https://www.youtube.com/@KokBisa)** — animasi edukasi sains, sejarah, dan pengetahuan umum
 
 Dukung karya mereka dengan menonton, menyukai, dan berlangganan di channel aslinya.
 

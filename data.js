@@ -121,6 +121,135 @@ const CATALOG = [
 
   /* ===================== TV SHOW LAIN ===================== */
   {
+    id: "kok-bisa",
+    type: "tv",
+    title: "Kok Bisa",
+    audioLang: "id",
+    year: 2015,
+    endYear: 2026,
+    rating: 9.2,
+    genres: ["Educational", "Documentary", "Animation", "Sci-Fi"],
+    channel: "Kok Bisa?",
+    country: "Indonesia",
+    popularity: 91,
+    tagline: "Menjawab Pertanyaan yang Terlihat Sederhana",
+    thumb: YT_THUMB("QK01ROEqJ1A", "maxresdefault"),
+    backdrop: YT_THUMB("kGTDRup5PbY", "maxresdefault"),
+    description:
+      "Kanal animasi edukasi Indonesia yang membedah pertanyaan sehari-hari dengan penjelasan ilmiah yang ringkas dan mudah dicerna. Dari ujung alam semesta, perjuangan para tokoh bangsa, sampai cara kerja tubuh manusia — cocok untuk menambah wawasan santri di luar pelajaran kitab.",
+    cast: [
+      { name: "Kok Bisa?", role: "Rumah Produksi" },
+      { name: "Tim Animator Kok Bisa", role: "Animasi & Ilustrasi" }
+    ],
+    seasons: [
+      {
+        season: 1,
+        year: 2015,
+        title: "Alam Semesta dan Luar Angkasa",
+        episodes: [
+          { ep: 1, title: "Apakah Ada Kehidupan Lain di Luar Bumi?", youtubeId: "FjFsx6iQE3Y", airYear: 2015, duration: "4:43", description: "Menimbang kemungkinan adanya kehidupan di planet lain." },
+          { ep: 2, title: "Kenapa Pluto Tidak Lagi Dianggap Sebagai Planet?", youtubeId: "FMNRItiR6ZA", airYear: 2015, duration: "2:31", description: "Alasan ilmiah di balik turunnya status Pluto dari planet." },
+          { ep: 3, title: "Apa Itu Black Hole Sebenarnya?", youtubeId: "Tx87wEaDtxo", airYear: 2015, duration: "3:21", description: "Penjelasan sederhana tentang apa itu lubang hitam." },
+          { ep: 4, title: "Apakah Manusia Bisa Hidup di Luar Angkasa?", youtubeId: "zbSe0xE7tg0", airYear: 2016, duration: "2:58", description: "Syarat bertahan hidup manusia di lingkungan luar angkasa." },
+          { ep: 5, title: "Bagaimana Matahari Terbakar Tanpa Oksigen di Luar Angkasa?", youtubeId: "2EVv7dmTFik", airYear: 2016, duration: "2:53", description: "Reaksi fusi nuklir yang menyalakan Matahari tanpa oksigen." },
+          { ep: 6, title: "Apa Yang Terjadi Jika Bulan Lenyap?", youtubeId: "iyJeozHhvJI", airYear: 2016, duration: "3:21", description: "Dampak berantai bagi Bumi seandainya Bulan menghilang." },
+          { ep: 7, title: "Bisakah Kita Membangun Koloni di Mars?", youtubeId: "uA3cMFjqfaM", airYear: 2016, duration: "4:28", description: "Rencana dan rintangan membangun koloni manusia di Mars." },
+          { ep: 8, title: "Bisakah Pesawat Terbang ke Luar Angkasa?", youtubeId: "YxgOhIQJX3Q", airYear: 2017, duration: "3:07", description: "Batas ketinggian pesawat dan sebab ia tak bisa ke luar angkasa." },
+          { ep: 9, title: "Kenapa Luar Angkasa Gelap?", youtubeId: "dghOCZmSEUQ", airYear: 2017, duration: "3:09", description: "Mengapa langit luar angkasa tampak gelap meski penuh bintang." },
+          { ep: 10, title: "Apakah Ada Ujung Alam Semesta?", youtubeId: "QK01ROEqJ1A", airYear: 2018, duration: "10:04", description: "Sejauh mana alam semesta membentang, dan apakah ia punya tepi?" },
+          { ep: 11, title: "Seberapa Perlu Kita Mencari ‘Bumi’ Baru?", youtubeId: "t5SaFgSaM_M", airYear: 2018, duration: "5:46", description: "Urgensi mencari planet layak huni selain Bumi." },
+          { ep: 12, title: "Dari Mana Bulan Kita Berasal?", youtubeId: "5Zi4qGpGop4", airYear: 2018, duration: "2:50", description: "Teori asal-usul Bulan dan kaitannya dengan Bumi." },
+          { ep: 13, title: "Seberapa Jauh Bumi dan Matahari?", youtubeId: "rloh5wZxFrU", airYear: 2018, duration: "2:38", description: "Jarak Bumi ke Matahari dan cara mengukurnya." },
+          { ep: 14, title: "Apa yang Terjadi pada Bintang yang Mati?", youtubeId: "vHM83awJtVw", airYear: 2019, duration: "3:51", description: "Akhir hidup sebuah bintang dan sisa yang ditinggalkannya." },
+          { ep: 15, title: "Bisakah Kita Selamat dari Hantaman Asteroid Raksasa?", youtubeId: "rgISfN3B7FE", airYear: 2019, duration: "11:24", description: "Peluang manusia bertahan dari hantaman asteroid raksasa." },
+          { ep: 16, title: "Bisakah Kita Teleportasi dengan Wormhole?", youtubeId: "OO6erYFxRMU", airYear: 2020, duration: "3:42", description: "Wormhole dan kemungkinan perjalanan antarruang." },
+          { ep: 17, title: "Apa Jadinya Jika Kita 'Puasa' di Luar Angkasa?", youtubeId: "BbVs_ZzQH-M", airYear: 2020, duration: "3:46", description: "Bagaimana menghitung waktu puasa saat berada di orbit." },
+          { ep: 18, title: "Seberapa Besar Bintang Bisa Terbentuk?", youtubeId: "rha05J96bOM", airYear: 2020, duration: "3:54", description: "Batas maksimal ukuran sebuah bintang dan sebabnya." },
+          { ep: 19, title: "The Great Filter: Tantangan Terbesar Umat Manusia", youtubeId: "SWmU0p_jcgU", airYear: 2020, duration: "5:22", description: "Great Filter dan pertanyaan besar tentang masa depan manusia." },
+          { ep: 20, title: "Apa Jadinya Jika Alien Datang ke Bumi?", youtubeId: "SDS_m7gIKEY", airYear: 2020, duration: "4:35", description: "Skenario ilmiah bila makhluk luar angkasa mendatangi Bumi." },
+          { ep: 21, title: "Apa yang Ada Sebelum Big Bang?", youtubeId: "kGTDRup5PbY", airYear: 2020, duration: "5:08", description: "Menelusuri apa yang mungkin ada sebelum Big Bang." },
+          { ep: 22, title: "Apakah Dunia Paralel Benar-benar Ada?", youtubeId: "U2anTtDa03c", airYear: 2020, duration: "5:42", description: "Teori dunia paralel dan bukti yang mendukungnya." },
+          { ep: 23, title: "BREAKING NEWS: Penemuan Potensi Kehidupan di Luar Bumi", youtubeId: "aHdyNI6KXZs", airYear: 2020, duration: "3:50", description: "Temuan yang mengarah pada potensi kehidupan di luar Bumi." },
+          { ep: 24, title: "Planet Ini Bikin Bingung Sains", youtubeId: "fbLbWEHUJNw", airYear: 2021, duration: "4:28", description: "Sebuah planet dengan sifat yang menantang penjelasan sains." },
+          { ep: 25, title: "BREAKING NEWS: Foto Pertama Teleskop Terkuat dalam Sejarah", youtubeId: "Hqq1C-2DH8c", airYear: 2021, duration: "5:36", description: "Foto perdana dari teleskop paling kuat yang pernah dibuat manusia." },
+          { ep: 26, title: "Seberapa Tua Alam Semesta? (Dan Gimana Cara Taunya?)", youtubeId: "NEkpbAy0GR0", airYear: 2021, duration: "4:22", description: "Cara ilmuwan memperkirakan umur alam semesta." },
+          { ep: 27, title: "Apakah Manusia Bisa Menguasai Galaksi?", youtubeId: "uoCfyIAOmFw", airYear: 2021, duration: "4:23", description: "Skala Kardashev dan sejauh mana peradaban bisa berkembang." },
+          { ep: 28, title: "Ide Gila Membajak Matahari demi Energi Tak Terbatas", youtubeId: "QtT8swjxvSo", airYear: 2021, duration: "4:24", description: "Gagasan memanen energi matahari secara besar-besaran." },
+          { ep: 29, title: "Gimana Cara Ilmuwan Mengukur Alam Semesta?", youtubeId: "_aoOVVGBGhM", airYear: 2021, duration: "4:28", description: "Metode mengukur jarak antarbintang dan antargalaksi." },
+          { ep: 30, title: "Apa Jadinya Jika Bayi Lahir Di Luar Angkasa?", youtubeId: "hptHGTRIhWA", airYear: 2021, duration: "3:49", description: "Tantangan kelahiran manusia dalam kondisi tanpa gravitasi." },
+          { ep: 31, title: "Kenapa Pesawat Luar Angkasa Tidak Terbakar di Atmosfer?", youtubeId: "VSYeai1NTlc", airYear: 2021, duration: "4:00", description: "Fisika di balik perisai panas pesawat saat menembus atmosfer." },
+          { ep: 32, title: "Matahari Akan Melahap Bumi: Bisakah Kita Kabur?", youtubeId: "uZEMJIdsET0", airYear: 2022, duration: "4:09", description: "Nasib Bumi saat Matahari mengembang, dan peluang manusia kabur." }
+        ]
+      },
+      {
+        season: 2,
+        year: 2018,
+        title: "Seri Tokoh Bangsa",
+        episodes: [
+          { ep: 1, title: "Trailer: Kok Bisa - Seri Tokoh Bangsa", youtubeId: "ebPjVymXo6g", airYear: 2018, duration: "1:11", description: "Cuplikan pembuka seri animasi tentang para tokoh pendiri bangsa." },
+          { ep: 2, title: "Tan Malaka, Bapak Republik yang Terlupakan", youtubeId: "6lveJ8B_fWA", airYear: 2018, duration: "5:02", description: "Tan Malaka dan gagasan republik yang mendahului zamannya." },
+          { ep: 3, title: "Sutan Sjahrir, Bung Kecil yang Berperan Besar", youtubeId: "KG_pIqVgr1o", airYear: 2018, duration: "4:17", description: "Sutan Sjahrir, diplomat muda dengan peran besar bagi kemerdekaan." },
+          { ep: 4, title: "Mohammad Hatta, Sosok Jenius di Balik Revolusi", youtubeId: "eOryoPRAShs", airYear: 2018, duration: "4:33", description: "Mohammad Hatta, otak di balik revolusi dan ekonomi Indonesia." },
+          { ep: 5, title: "Soekarno, Pemimpin Besar Revolusi Indonesia", youtubeId: "2UR4ZiLahQg", airYear: 2018, duration: "5:18", description: "Soekarno dan orasi yang menyatukan bangsa Indonesia." },
+          { ep: 6, title: "Trailer: Tiga Serangkai Paling Ditakuti di Zamannya - Seri Tokoh Bangsa Season 2", youtubeId: "57HaywVxlYY", airYear: 2019, duration: "1:11", description: "Cuplikan pembuka musim kedua Seri Tokoh Bangsa." },
+          { ep: 7, title: "dr. Cipto, Dokter yang Memimpin Revolusi", youtubeId: "P8JzjGiQdbo", airYear: 2019, duration: "4:54", description: "dr. Cipto Mangunkusumo, dokter yang memimpin perlawanan." },
+          { ep: 8, title: "Douwes Dekker, Sosok ‘Asing’ yang Membela Indonesia", youtubeId: "37lAIDjl1mY", airYear: 2019, duration: "4:58", description: "Douwes Dekker, keturunan Eropa yang membela Indonesia." },
+          { ep: 9, title: "Ki Hadjar Dewantara, Bapak Pendidikan yang Bersuara Lantang", youtubeId: "GVpvL3dextw", airYear: 2019, duration: "5:57", description: "Ki Hadjar Dewantara dan lahirnya pendidikan nasional." },
+          { ep: 10, title: "Merdeka atau Mati: Pertempuran Besar Pertama Bangsa Indonesia", youtubeId: "Wxfa8gCHlow", airYear: 2020, duration: "7:08", description: "Pertempuran Surabaya, perlawanan besar pertama setelah merdeka." },
+          { ep: 11, title: "Kota Surga yang Hangus Jadi Neraka", youtubeId: "fCsNKgeDfF4", airYear: 2020, duration: "6:09", description: "Bandung Lautan Api dan keputusan berat membakar kota sendiri." },
+          { ep: 12, title: "Dahsyatnya Perang Gerilya Merebut Kota Yogyakarta", youtubeId: "Wf1cVQ7W0WU", airYear: 2020, duration: "5:49", description: "Serangan Umum 1 Maret dan strategi perang gerilya." },
+          { ep: 13, title: "Masa Ketika Indonesia di Ambang ‘Kehancuran’", youtubeId: "hEgFeLMf9uE", airYear: 2021, duration: "7:03", description: "Masa genting ketika Republik Indonesia nyaris runtuh." }
+        ]
+      },
+      {
+        season: 3,
+        year: 2022,
+        title: "Taman Edukasi: Belajar IPA",
+        episodes: [
+          { ep: 1, title: "Sistem Canggih Tubuh Manusia yang Lahirin Kehidupan", youtubeId: "6ye5NOaxIYg", airYear: 2022, duration: "6:56", description: "Sistem reproduksi manusia dijelaskan secara ilmiah dan santun." },
+          { ep: 2, title: "Berkembang Biak: Hewan dan Tumbuhan Punya Cara Mereka Sendiri", youtubeId: "9UkTh1sSWt4", airYear: 2022, duration: "9:11", description: "Beragam cara hewan dan tumbuhan melanjutkan keturunan." },
+          { ep: 3, title: "Kenapa Kita Mirip Orangtua Kita?", youtubeId: "JYL0xSSZgAA", airYear: 2022, duration: "10:09", description: "Genetika dan alasan wajah kita menyerupai orang tua." },
+          { ep: 4, title: "Apa Jadinya Jika Kemagnetan Bumi Hilang dalam Sekejap?", youtubeId: "-rT697FBDOM", airYear: 2022, duration: "11:41", description: "Peran medan magnet Bumi sebagai pelindung kehidupan." },
+          { ep: 5, title: "Teknologi Biologi: Masa Depan Dunia!", youtubeId: "-etEvbbnDOQ", airYear: 2022, duration: "8:15", description: "Bioteknologi dan pengaruhnya bagi masa depan manusia." },
+          { ep: 6, title: "Benda-benda Terkecil yang Menyusun Alam Semesta", youtubeId: "kPHhHClKDQA", airYear: 2022, duration: "7:40", description: "Partikel terkecil penyusun seluruh materi di alam semesta." },
+          { ep: 7, title: "Apa Jadinya Jika Tanah Hilang?", youtubeId: "mudJs7dX2Qc", airYear: 2022, duration: "6:59", description: "Peran tanah bagi kehidupan dan akibat bila ia hilang." },
+          { ep: 8, title: "Energi Masa Depan yang Perlu Kita Tau!", youtubeId: "qm4tTGJ_eQo", airYear: 2022, duration: "9:45", description: "Sumber energi masa depan yang lebih bersih dan terbarukan." }
+        ]
+      },
+      {
+        season: 4,
+        year: 2026,
+        title: "Terbaru: Sains & Dunia Kita",
+        episodes: [
+          { ep: 1, title: "Pasukan Janda Terkuat Indonesia yang Mengusir Penjajah", youtubeId: "LWk3psIofA8", airYear: 2026, duration: "4:07", description: "Pasukan perempuan Aceh yang gigih melawan penjajah." },
+          { ep: 2, title: "Apa Jadinya Jika Kita Berhenti Konsumsi Gula?", youtubeId: "iWv_ZyP3peI", airYear: 2026, duration: "4:02", description: "Perubahan pada tubuh saat kita berhenti mengonsumsi gula." },
+          { ep: 3, title: "Cara Gila Baru untuk Mencoba Nyetop Penuaan", youtubeId: "sTPRtmpQi1Y", airYear: 2026, duration: "4:06", description: "Pendekatan ilmiah terbaru dalam upaya memperlambat penuaan." },
+          { ep: 4, title: "Apa Jadinya Jika ASEAN Punya Satu Mata Uang?", youtubeId: "d7O6Eujw7tQ", airYear: 2026, duration: "3:21", description: "Membayangkan dampak ekonomi bila ASEAN memakai satu mata uang." },
+          { ep: 5, title: "Satu Orang yang Merombak Kekuatan Nuklir Dunia", youtubeId: "IOSSrNitwr4", airYear: 2026, duration: "4:27", description: "Sosok yang mengubah arah pemanfaatan tenaga nuklir dunia." },
+          { ep: 6, title: "Kenapa Banyak Anak Kecil Punya Temen Khayalan?", youtubeId: "IOu2jcTk9JQ", airYear: 2026, duration: "3:16", description: "Fenomena teman khayalan pada anak dan penjelasan psikologisnya." },
+          { ep: 7, title: "Apa Rasanya Jadi Orang Autis?", youtubeId: "5J6o5eIKqOY", airYear: 2026, duration: "5:21", description: "Memahami cara orang autis merasakan dan memandang dunia." },
+          { ep: 8, title: "Misteri Terbesar Laut yang Belum Terpecahkan", youtubeId: "oVXN_7gzirA", airYear: 2026, duration: "3:46", description: "Misteri laut dalam yang sampai kini belum terpecahkan sains." },
+          { ep: 9, title: "Gimana Jika Kita Punya Dua Pasang Paru-paru?", youtubeId: "16huZsayUUQ", airYear: 2026, duration: "3:51", description: "Andai manusia punya dua pasang paru-paru, apa yang berubah?" },
+          { ep: 10, title: "Bisa Seberapa Parah Krisis Energi Dunia Saat Ini?", youtubeId: "T_5rixMMTWk", airYear: 2026, duration: "3:47", description: "Seberapa parah krisis energi dunia dan dampaknya bagi kita." },
+          { ep: 11, title: "Apa Jadinya Jika Bumi Punya Dua Matahari?", youtubeId: "ujzX3F2PW7c", airYear: 2026, duration: "4:19", description: "Skenario ilmiah jika Bumi mengorbit dua matahari." },
+          { ep: 12, title: "Seberapa Sulit Bikin Roket Sebenarnya?", youtubeId: "H1oSgMtFXkQ", airYear: 2026, duration: "3:50", description: "Tantangan teknik di balik pembuatan roket luar angkasa." },
+          { ep: 13, title: "Kenapa Peradaban Besar Selalu Mulai di Area Ini?", youtubeId: "kqOtfYVPcew", airYear: 2026, duration: "4:19", description: "Alasan geografis peradaban besar selalu lahir di kawasan tertentu." },
+          { ep: 14, title: "Seberapa Kaya Orang-orang Terkaya Sebenarnya?", youtubeId: "UcpIPDoMGvk", airYear: 2026, duration: "15:59", description: "Membayangkan skala kekayaan orang terkaya dunia secara nyata." },
+          { ep: 15, title: "Kenapa Ada Ratusan Danau Aneh di Bawah Es Antarktika?", youtubeId: "RUK3AMr9iN0", airYear: 2026, duration: "4:00", description: "Ratusan danau tersembunyi di bawah lapisan es Antarktika." },
+          { ep: 16, title: "Kenapa Benda Sebahaya Ini Ada di Rumah Banyak Orang?", youtubeId: "6WlMwI0l_js", airYear: 2026, duration: "4:25", description: "Benda berbahaya yang diam-diam ada di banyak rumah." },
+          { ep: 17, title: "Bagaimana Cara Tercepat untuk Kena Kanker?", youtubeId: "yslj7zpN3K4", airYear: 2026, duration: "11:08", description: "Faktor-faktor yang paling mempercepat risiko kanker — dan cara menghindarinya." },
+          { ep: 18, title: "Belajar cari tujuan hidup dari B.J. Habibie!", youtubeId: "p0d5q_vRF1s", airYear: 2026, duration: "2:07", description: "Pelajaran mencari tujuan hidup dari perjalanan B.J. Habibie." },
+          { ep: 19, title: "Apakah Benar Orang Indonesia Malas-malas?", youtubeId: "c5AQZFKVngA", airYear: 2026, duration: "4:53", description: "Menguji anggapan soal etos kerja orang Indonesia dengan data." },
+          { ep: 20, title: "Apa yang Terjadi Jika Usus Buntu Kita Pecah?", youtubeId: "T2z0uQ_uy9Q", airYear: 2026, duration: "4:14", description: "Apa yang terjadi saat usus buntu pecah dan kenapa itu gawat darurat." },
+          { ep: 21, title: "Kenapa Sebenarnya Pulpen Gak Bisa Dihapus?", youtubeId: "tgQLOaiFpjA", airYear: 2026, duration: "4:27", description: "Kimia tinta pulpen dan alasan ia menempel permanen di kertas." },
+          { ep: 22, title: "Gimana Cara Menghadapi 'Kutukan' Sumber Daya Alam?", youtubeId: "gbAUrGgksXc", airYear: 2026, duration: "3:54", description: "Paradoks negara kaya sumber daya yang justru sulit sejahtera." },
+          { ep: 23, title: "Kenapa Kedokteran Gigi Terpisah dari Kedokteran?", youtubeId: "m68-_9kVjoc", airYear: 2026, duration: "3:45", description: "Sebab historis kedokteran gigi berkembang terpisah dari kedokteran umum." },
+          { ep: 24, title: "Apa Jadinya Jika Kita Kebanyakan Kafein?", youtubeId: "3RZ6Eir-QyI", airYear: 2026, duration: "4:03", description: "Efek kafein berlebih pada tubuh dan batas aman konsumsinya." }
+        ]
+      }
+    ]
+  },
+  {
     id: "epic-story",
     type: "tv",
     title: "Epic Story",
@@ -550,6 +679,14 @@ function voiceTitle(node, lang) {
 function voiceAirDate(node, lang) {
   if (lang === "id" && node.idnYoutubeId && node.idnAirDate) return node.idnAirDate;
   return node.airDate;
+}
+
+/* Label tanggal untuk badge episode. Sebagian judul hanya punya tahun rilis
+   (airYear) — tampilkan tahunnya saja daripada mengarang tanggal palsu. */
+function epDateLabel(node, lang) {
+  const d = voiceAirDate(node, lang);
+  if (d) return shortDate(d);
+  return node.airYear ? String(node.airYear) : "";
 }
 
 /* Daftar bahasa yang tersedia pada sebuah judul (item level) */
